@@ -97,8 +97,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 112000000, guid: 1057c40d4ce133d45b2f8343196e5f9e,
-    type: 2}
+  m_LightingDataAsset: {fileID: 112000000, guid: 1057c40d4ce133d45b2f8343196e5f9e, type: 2}
   m_LightingSettings: {fileID: 218329390}
 --- !u!196 &4
 NavMeshSettings:
@@ -290,6 +289,7 @@ GameObject:
   - component: {fileID: 597757347}
   - component: {fileID: 597757346}
   - component: {fileID: 597757345}
+  - component: {fileID: 597757349}
   m_Layer: 0
   m_Name: Plane
   m_TagString: Untagged
@@ -375,6 +375,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &597757349
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 597757344}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e39e0dae25f565448a4a4ca0374dc914, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &630787560
 GameObject:
   m_ObjectHideFlags: 0
@@ -476,10 +488,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e0c880809460fc849b7d4aa9246cbfd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  localPlayerPrefab: {fileID: 7677484484946083636, guid: bb61d6c6e5fb656458b94c79159ad652,
-    type: 3}
-  playerPrefab: {fileID: 7677484484946083636, guid: 557e9a3a3d9ee014087f779a676d456f,
-    type: 3}
+  localPlayerPrefab: {fileID: 7677484484946083636, guid: bb61d6c6e5fb656458b94c79159ad652, type: 3}
+  playerPrefab: {fileID: 7677484484946083636, guid: 557e9a3a3d9ee014087f779a676d456f, type: 3}
 --- !u!4 &761847842
 Transform:
   m_ObjectHideFlags: 0

@@ -111,8 +111,10 @@ namespace LambWorks.Networking.Server {
         }
 
         public static void Stop() {
-            tcpListener.Stop();
-            udpListener.Close();
+            if(tcpListener != null)
+                tcpListener.Stop();
+            if (udpListener != null)
+                udpListener.Close();
         }
     }
 }
