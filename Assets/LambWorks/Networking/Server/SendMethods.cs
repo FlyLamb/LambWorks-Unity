@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -51,9 +52,47 @@ namespace LambWorks.Networking.Server {
             }
         }
 
+        /// <summary>Sends a player disconnected, so that the player is removed in the Clients.</summary>
+        /// <param name="playerId">The player which disconnected</param>
         public static void PlayerDisconnected(int playerId) {
             using (Packet packet = new Packet((int)ServerPackets.playerDisconnected)) {
                 packet.Write(playerId);
+
+                SendTCPDataToAll(packet);
+            }
+        }
+
+        /// <summary>Sends an entity to the client, if client does not have this entity than it is automatically spawned</summary>
+        /// <param name="entity">The entity to send.</param>
+        public static void UpdateEntity(Entity entity) {
+            using (Packet packet = new Packet((int)ServerPackets.entityUpdate)) {
+                packet.Write(entity.id);
+                packet.Write(entity.transform.position);
+                packet.Write(entity.transform.rotation);
+                packet.Write(entity.transform.localScale);
+
+                SendUDPDataToAll(packet);
+            }
+        }
+
+        public static void SpawnEntity(Entity entity, int toClient = -1) {
+            using (Packet packet = new Packet((int)ServerPackets.entitySpawn)) {
+                packet.Write(entity.model);
+                packet.Write(entity.id);
+                packet.Write(entity.transform.position);
+                packet.Write(entity.transform.rotation);
+                packet.Write(entity.transform.localScale);
+
+                if (toClient == -1)
+                    SendTCPDataToAll(packet);
+                else
+                    SendTCPData(toClient, packet);
+            }
+        }
+
+        public static void DestroyEntity(Entity entity) {
+            using (Packet packet = new Packet((int)ServerPackets.entityDestroy)) {
+                packet.Write(entity.id);
 
                 SendTCPDataToAll(packet);
             }

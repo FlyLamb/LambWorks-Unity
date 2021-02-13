@@ -48,5 +48,28 @@ namespace LambWorks.Networking.Client {
             Destroy(GameManager.players[id].gameObject);
             GameManager.players.Remove(id);
         }
+
+        public static void SpawnEntity(Packet packet) {
+            string model = packet.ReadString();
+            uint id = (uint)packet.ReadLong();
+            Vector3 position = packet.ReadVector3();
+            Quaternion rotation = packet.ReadQuaternion();
+            Vector3 scale = packet.ReadVector3();
+
+            GameManager.instance.SpawnEntity(model, id, position, rotation, scale);
+        }
+
+        public static void UpdateEntity(Packet packet) {
+            uint id = (uint)packet.ReadLong();
+            Vector3 position = packet.ReadVector3();
+            Quaternion rotation = packet.ReadQuaternion();
+            Vector3 scale = packet.ReadVector3();
+
+            GameManager.entities[id].UpdateEntity(position, rotation, scale, null);
+        }
+
+        public static void DestroyEntity(Packet packet) {
+
+        }
     }
 }

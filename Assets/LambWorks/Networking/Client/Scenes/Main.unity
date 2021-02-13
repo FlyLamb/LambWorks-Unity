@@ -322,7 +322,6 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -490,6 +489,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   localPlayerPrefab: {fileID: 7677484484946083636, guid: bb61d6c6e5fb656458b94c79159ad652, type: 3}
   playerPrefab: {fileID: 7677484484946083636, guid: 557e9a3a3d9ee014087f779a676d456f, type: 3}
+  registeredEntities:
+  - {fileID: -3196856154902350626, guid: d1e80369bc15fcb4c81e636eedd0e1ab, type: 3}
 --- !u!4 &761847842
 Transform:
   m_ObjectHideFlags: 0

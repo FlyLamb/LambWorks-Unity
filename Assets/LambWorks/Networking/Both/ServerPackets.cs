@@ -6,6 +6,9 @@ namespace LambWorks.Networking {
         spawnPlayer,
         playerPosition,
         playerRotation,
-        playerDisconnected
+        playerDisconnected,
+        entityUpdate,
+        entitySpawn,
+        entityDestroy
     }
 }

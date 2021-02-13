@@ -9,6 +9,7 @@ namespace LambWorks.Networking.Server {
         public static int MaxPlayers { get; private set; }
         public static int Port { get; private set; }
         public static Dictionary<int, Client> clients = new Dictionary<int, Client>();
+        public static Dictionary<uint, Entity> entities = new Dictionary<uint, Entity>();
         public delegate void PacketHandler(int fromClient, Packet packet);
         public static Dictionary<int, PacketHandler> packetHandlers;
 
@@ -111,10 +112,19 @@ namespace LambWorks.Networking.Server {
         }
 
         public static void Stop() {
+            foreach(Client c in clients.Values) {
+                ServerSend.PlayerDisconnected(c.id);
+            }
+            clients.Clear();
+            foreach (Entity e in entities.Values) GameObject.Destroy(e.gameObject);
+            entities.Clear();
+
             if(tcpListener != null)
                 tcpListener.Stop();
             if (udpListener != null)
                 udpListener.Close();
+
         }
+
     }
 }

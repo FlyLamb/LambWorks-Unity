@@ -9,9 +9,5 @@ public class SceneLoader : MonoBehaviour
         SceneManager.LoadScene(index);
     }
 
-    private void Update() {
-        if (Input.GetKeyDown(KeyCode.Backspace)) {
-            Load(0);
-        }
-    }
+    
 }
