@@ -57,5 +57,10 @@ namespace LambWorks.Networking.Client {
             e.Initialize(id, position, rotation, scale);
             entities.Add(id, e);
         }
+
+        public void KillEntity(uint id) {
+            Destroy(entities[id].gameObject);
+            entities.Remove(id);
+        }
     }
 }

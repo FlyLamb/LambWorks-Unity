@@ -3,7 +3,7 @@
 namespace LambWorks.Networking.Client {
     public partial class Client {
         /// <summary>
-        /// Registers all handlers. They should be defined in the ServerHandle class
+        /// Registers all handlers. They should be defined in the ClientHandle class
         /// </summary>
         private static void RegisterHandlers() {
             packetHandlers = new Dictionary<int, PacketHandler>() {
@@ -14,7 +14,8 @@ namespace LambWorks.Networking.Client {
                 { (int)ServerPackets.playerDisconnected, ClientHandle.PlayerDisconnected },
                 { (int)ServerPackets.entitySpawn, ClientHandle.SpawnEntity },
                 { (int)ServerPackets.entityUpdate, ClientHandle.UpdateEntity },
-                { (int)ServerPackets.entityDestroy, ClientHandle.DestroyEntity }
+                { (int)ServerPackets.entityDestroy, ClientHandle.DestroyEntity },
+                { (int)ServerPackets.entityMessage, ClientHandle.MessageEntity }
             };
         }
     }

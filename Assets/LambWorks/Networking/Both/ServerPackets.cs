@@ -9,6 +9,7 @@ namespace LambWorks.Networking {
         playerDisconnected,
         entityUpdate,
         entitySpawn,
-        entityDestroy
+        entityDestroy,
+        entityMessage
     }
 }

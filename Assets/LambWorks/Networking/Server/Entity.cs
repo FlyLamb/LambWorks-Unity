@@ -22,7 +22,11 @@ namespace LambWorks.Networking.Server {
             ServerSend.UpdateEntity(this);
         }
 
-        public virtual dynamic GetData() {
+        public virtual void Message(string msg, object args = null) {
+            ServerSend.MessageEntity(this, msg, args);
+        }
+
+        public virtual object GetData() {
             return null;
         }
 

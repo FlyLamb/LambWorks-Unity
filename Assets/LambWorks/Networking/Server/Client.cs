@@ -213,6 +213,7 @@ namespace LambWorks.Networking.Server {
             udp.Disconnect();
 
             ServerSend.PlayerDisconnected(id);
+            
         }
     }
 }

@@ -5,7 +5,7 @@ namespace LambWorks.Networking.Client {
     public class Entity : MonoBehaviour {
         [HideInInspector] public uint id;
         public string model;
-        public dynamic data;
+        public object data;
 
         public delegate void OnReceivedUpdate();
         public OnReceivedUpdate onUpdate;
@@ -17,7 +17,7 @@ namespace LambWorks.Networking.Client {
             transform.localScale = scale;
         }
 
-        public virtual void UpdateEntity(Vector3 position, Quaternion rotation, Vector3 scale, dynamic data) {
+        public virtual void UpdateEntity(Vector3 position, Quaternion rotation, Vector3 scale, object data) {
             transform.position = position;
             transform.rotation = rotation;
             transform.localScale = scale;

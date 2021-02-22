@@ -20,6 +20,7 @@ namespace LambWorks.Networking.Server {
         /// <param name="toClient">The client that should spawn the player.</param>
         /// <param name="player">The player to spawn.</param>
         public static void SpawnPlayer(int toClient, Player player) {
+            NetworkManager.instance.OnPlayerJoin(player.id);
             using (Packet packet = new Packet((int)ServerPackets.spawnPlayer)) {
                 packet.Write(player.id);
                 packet.Write(player.username);
@@ -70,6 +71,7 @@ namespace LambWorks.Networking.Server {
                 packet.Write(entity.transform.position);
                 packet.Write(entity.transform.rotation);
                 packet.Write(entity.transform.localScale);
+                packet.WriteObject(entity.GetData());
 
                 SendUDPDataToAll(packet);
             }
@@ -93,6 +95,16 @@ namespace LambWorks.Networking.Server {
         public static void DestroyEntity(Entity entity) {
             using (Packet packet = new Packet((int)ServerPackets.entityDestroy)) {
                 packet.Write(entity.id);
+
+                SendTCPDataToAll(packet);
+            }
+        }
+
+        public static void MessageEntity(Entity entity, string message, object parameter = null) {
+            using (Packet packet = new Packet((int)ServerPackets.entityMessage)) {
+                packet.Write(entity.id);
+                packet.Write(message);
+                packet.WriteObject(parameter);
 
                 SendTCPDataToAll(packet);
             }

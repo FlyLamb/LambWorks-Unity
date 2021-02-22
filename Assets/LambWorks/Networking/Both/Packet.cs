@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using UnityEngine;
 
@@ -138,6 +140,19 @@ namespace LambWorks.Networking {
             Write(_value.z);
             Write(_value.w);
         }
+        /// <summary>Adds any serializable object to the packet.</summary>
+        /// <param name="_value">The object to add</param>
+        public void WriteObject(object _value) {
+            if (_value == null) {
+                Write(0); // object is null, so we write the length of 0
+                return;
+            }
+            BinaryFormatter bf = new BinaryFormatter();
+            using MemoryStream ms = new MemoryStream();
+            bf.Serialize(ms, _value);
+            Write(ms.ToArray().Length); // first we write the length of the object's byte representation
+            Write(ms.ToArray()); // than we write the representation itself
+        } 
         #endregion
 
         #region Read Data
@@ -281,6 +296,21 @@ namespace LambWorks.Networking {
         /// <param name="_moveReadPos">Whether or not to move the buffer's read position.</param>
         public Quaternion ReadQuaternion(bool _moveReadPos = true) {
             return new Quaternion(ReadFloat(_moveReadPos), ReadFloat(_moveReadPos), ReadFloat(_moveReadPos), ReadFloat(_moveReadPos));
+        }
+
+        /// <summary>Reads an object from the packet.</summary>
+        /// <param name="_moveReadPos">Whether or not to move the buffer's read position.</param>
+        public object ReadObject(bool _moveReadPos = true) {
+            int length = ReadInt(_moveReadPos);
+            if (length == 0) return null; // object was null or empty
+            byte[] bytes = ReadBytes(length, _moveReadPos);
+
+            using MemoryStream memStream = new MemoryStream(); 
+            BinaryFormatter bf = new BinaryFormatter();
+            memStream.Write(bytes, 0, length);
+            memStream.Seek(0, SeekOrigin.Begin);
+
+            return bf.Deserialize(memStream);
         }
         #endregion
 

@@ -10,6 +10,7 @@ namespace LambWorks.Networking.Client {
 
         public string ip = "127.0.0.1";
         public int port = 26950;
+        public int timeout = 3;
         public int myId = 0;
         public TCP tcp;
         public UDP udp;
@@ -57,7 +58,19 @@ namespace LambWorks.Networking.Client {
                 };
 
                 receiveBuffer = new byte[dataBufferSize];
-                socket.BeginConnect(instance.ip, instance.port, ConnectCallback, socket);
+                
+                var ar = socket.BeginConnect(instance.ip, instance.port, ConnectCallback, socket);
+                System.Threading.WaitHandle wh = ar.AsyncWaitHandle;
+                try {
+                    if (!ar.AsyncWaitHandle.WaitOne(TimeSpan.FromSeconds(2), false)) {
+                        socket.Close(); //We have timed out!
+                        UnityEngine.SceneManagement.SceneManager.LoadScene(0); //this line is here so that we go back to the menu
+                        return;
+                    }             
+                }
+                finally {
+                    wh.Close();
+                }
             }
 
             /// <summary>Initializes the newly connected client's TCP-related info.</summary>
@@ -65,6 +78,7 @@ namespace LambWorks.Networking.Client {
                 socket.EndConnect(result);
 
                 if (!socket.Connected) {
+                    Client.instance.Disconnect();
                     return;
                 }
 

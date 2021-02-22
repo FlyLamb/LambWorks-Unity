@@ -44,9 +44,10 @@ namespace LambWorks.Networking.Client {
 
         public static void PlayerDisconnected(Packet packet) {
             int id = packet.ReadInt();
-
-            Destroy(GameManager.players[id].gameObject);
-            GameManager.players.Remove(id);
+            if (GameManager.players.ContainsKey(id)) { //this caused an error when the server disconnected but the client did not.
+                Destroy(GameManager.players[id].gameObject);
+                GameManager.players.Remove(id);
+            }
         }
 
         public static void SpawnEntity(Packet packet) {
@@ -64,12 +65,22 @@ namespace LambWorks.Networking.Client {
             Vector3 position = packet.ReadVector3();
             Quaternion rotation = packet.ReadQuaternion();
             Vector3 scale = packet.ReadVector3();
+            object data = packet.ReadObject();
 
-            GameManager.entities[id].UpdateEntity(position, rotation, scale, null);
+            GameManager.entities[id].UpdateEntity(position, rotation, scale, data);
         }
 
         public static void DestroyEntity(Packet packet) {
+            uint id = (uint)packet.ReadLong();
+            GameManager.instance.KillEntity(id);
+        }
 
+        public static void MessageEntity(Packet packet) {
+            uint id = (uint)packet.ReadLong();
+            string msg = packet.ReadString();
+            object obj = packet.ReadObject();
+
+            GameManager.entities[id].SendMessage(msg, obj);
         }
     }
 }
