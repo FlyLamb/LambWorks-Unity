@@ -44,6 +44,10 @@ namespace LambWorks.Networking.Client {
 
         public static void PlayerDisconnected(Packet packet) {
             int id = packet.ReadInt();
+            if(id == Client.instance.myId) {
+                Client.instance.Disconnect();
+                UnityEngine.SceneManagement.SceneManager.LoadScene(0); // if we were disconnected, go back to the menu.
+            }
             if (GameManager.players.ContainsKey(id)) { //this caused an error when the server disconnected but the client did not.
                 Destroy(GameManager.players[id].gameObject);
                 GameManager.players.Remove(id);
