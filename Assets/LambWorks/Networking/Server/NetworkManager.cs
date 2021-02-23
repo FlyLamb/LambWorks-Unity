@@ -31,12 +31,15 @@ namespace LambWorks.Networking.Server {
             return Instantiate(playerPrefab, new Vector3(0f, 0.5f, 0f), Quaternion.identity).GetComponent<Player>();
         }
 
+        /// <summary>This is called when a player joins</summary>
         public void OnPlayerJoin(int id) {
             foreach (var item in Server.entities.Values) {
                 ServerSend.SpawnEntity(item, id);
             }
         }
 
+        /// <summary>Needs to be called by the entity in order to be registered</summary>
+        /// <param name="e">The entity to register</param>
         public void RegisterEntity(Entity e) {
 
             List<uint> keys = new List<uint>(Server.entities.Keys);
@@ -54,6 +57,8 @@ namespace LambWorks.Networking.Server {
             Server.entities.Add(i, e);
         }
 
+        /// <summary>Destroys the entity for the client</summary>
+        /// <param name="e">The entity to destroy</param>
         public void DestroyEntity(Entity e) {
             if (!Server.entities.ContainsKey(e.id)) return;
             ServerSend.DestroyEntity(e);

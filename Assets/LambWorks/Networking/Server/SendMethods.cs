@@ -63,7 +63,7 @@ namespace LambWorks.Networking.Server {
             }
         }
 
-        /// <summary>Sends an entity to the client, if client does not have this entity than it is automatically spawned</summary>
+        /// <summary>Sends an entity update to the client</summary>
         /// <param name="entity">The entity to send.</param>
         public static void UpdateEntity(Entity entity) {
             using (Packet packet = new Packet((int)ServerPackets.entityUpdate)) {
@@ -77,6 +77,9 @@ namespace LambWorks.Networking.Server {
             }
         }
 
+        /// <summary>Sends an entity spawn to the client</summary>
+        /// <param name="entity">The entity to send.</param>
+        /// <param name="toClient">The client to which to send this, if -1 then it is all</param>
         public static void SpawnEntity(Entity entity, int toClient = -1) {
             using (Packet packet = new Packet((int)ServerPackets.entitySpawn)) {
                 packet.Write(entity.model);
@@ -92,6 +95,8 @@ namespace LambWorks.Networking.Server {
             }
         }
 
+        ///<summary>Sends an entity destroy to the client.</summary>
+        /// <param name="entity">The entity to destroy.</param>
         public static void DestroyEntity(Entity entity) {
             using (Packet packet = new Packet((int)ServerPackets.entityDestroy)) {
                 packet.Write(entity.id);
@@ -100,6 +105,10 @@ namespace LambWorks.Networking.Server {
             }
         }
 
+        ///<summary>Sends a message (essentially attempts to call a function) in the client entity</summary>
+        /// <param name="entity">The entity to message.</param>
+        /// <param name="message">The name of the function to call</param>
+        /// <param name="parameter">The object to send as the parameter to the function</param>
         public static void MessageEntity(Entity entity, string message, object parameter = null) {
             using (Packet packet = new Packet((int)ServerPackets.entityMessage)) {
                 packet.Write(entity.id);

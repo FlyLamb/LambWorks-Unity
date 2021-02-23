@@ -41,6 +41,9 @@ namespace LambWorks.Networking.Client {
             players.Add(id, player.GetComponent<PlayerManager>());
         }
 
+        /// <summary>Finds the correct entity for the provided model name</summary>
+        /// <param name="model">The model name</param>
+        /// <returns>The entity name</returns>
         public Entity FindEntityByModelName(string model) {
             Entity last = null;
             foreach (var item in registeredEntities) {
@@ -52,12 +55,14 @@ namespace LambWorks.Networking.Client {
             return last;
         }
 
+        /// <summary>Instantiates the entity and assigns the correct parameters</summary>
         public void SpawnEntity(string model, uint id, Vector3 position, Quaternion rotation, Vector3 scale) {
             Entity e = Instantiate(FindEntityByModelName(model).gameObject).GetComponent<Entity>();
             e.Initialize(id, position, rotation, scale);
             entities.Add(id, e);
         }
 
+        /// <summary>Kills the entity with the provided ID</summary>
         public void KillEntity(uint id) {
             Destroy(entities[id].gameObject);
             entities.Remove(id);
