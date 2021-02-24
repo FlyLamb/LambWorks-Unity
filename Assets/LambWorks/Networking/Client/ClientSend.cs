@@ -15,5 +15,6 @@ namespace LambWorks.Networking.Client {
             packet.WriteLength();
             Client.instance.udp.SendData(packet);
         }
+
     }
 }

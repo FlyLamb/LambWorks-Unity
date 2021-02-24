@@ -9,7 +9,8 @@ namespace LambWorks.Networking.Server {
             packetHandlers = new Dictionary<int, PacketHandler>()
             {
                 { (int)ClientPackets.welcomeReceived, ServerHandle.WelcomeReceived },
-                { (int)ClientPackets.playerMovement, ServerHandle.PlayerMovement }
+                { (int)ClientPackets.playerMovement, ServerHandle.PlayerMovement },
+                { (int)ClientPackets.entityMessage, ServerHandle.MessageEntity }
             };
         }
     }

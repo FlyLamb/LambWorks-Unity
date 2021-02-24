@@ -17,5 +17,12 @@ namespace LambWorks.Networking.Server {
             Server.clients[fromClient].player.SetInput(inputs, rotation);
         }
 
+        public static void MessageEntity(int fromClient, Packet packet) {
+            uint id = (uint)packet.ReadLong();
+            string msg = packet.ReadString();
+            object obj = packet.ReadObject();
+            Server.entities[id].SendMessage(msg, obj);
+        }
+
     }
 }

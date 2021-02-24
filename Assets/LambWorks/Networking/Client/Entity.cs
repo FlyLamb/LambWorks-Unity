@@ -14,6 +14,13 @@ namespace LambWorks.Networking.Client {
         /// <summary>This is called when we receive an update to the entity.</summary>
         public OnReceivedUpdate onUpdate;
 
+        /// <summary>Messages the server entity (basically calls a function by name)</summary>
+        /// <param name="msg">The name of the function to call</param>
+        /// <param name="args">Arguments to pass on to the function</param>
+        public virtual void Message(string msg, object args = null) {
+            ClientSend.MessageEntity(this, msg, args);
+        }
+
         /// <summary>This function initializes the entity with provided data</summary>
         public virtual void Initialize(uint id, Vector3 position, Quaternion rotation, Vector3 scale) {
             this.id = id;

@@ -21,6 +21,20 @@
                 SendUDPData(packet);
             }
         }
+
+        /// <summary>Sends a message (essentially attempts to call a function) in the server entity</summary>
+        /// <param name="entity">The entity to message.</param>
+        /// <param name="message">The name of the function to call</param>
+        /// <param name="parameter">The object to send as the parameter to the function</param>
+        public static void MessageEntity(Entity entity, string message, object parameter = null) {
+            using (Packet packet = new Packet((int)ClientPackets.entityMessage)) {
+                packet.Write(entity.id);
+                packet.Write(message);
+                packet.WriteObject(parameter);
+
+                SendTCPData(packet);
+            }
+        }
     }
 
 }
