@@ -1,0 +1,13 @@
+{
+    "name":"xyz.bajtix.LambWorksNetworking",
+    "version":"1.0.0",
+    "description":"LambWorks multiplayer framework",
+    "displayName":"LambWorks Networking",
+    "unity":"2021.1",
+    "author": {
+        "name":"bajtixone",
+        "email":"bajtix.b@gmail.com",
+        "url":"https://bajtix.xyz"
+    },
+    "documentationUrl": "https://github.com/FlyLamb/LambWorks-Unity/wiki/Networking"
+}

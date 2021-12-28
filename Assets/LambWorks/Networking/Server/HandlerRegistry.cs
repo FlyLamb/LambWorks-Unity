@@ -5,7 +5,7 @@ namespace LambWorks.Networking.Server {
         /// <summary>
         /// Registers all handlers. They should be defined in the ServerHandle class
         /// </summary>
-        private static void RegisterHandlers() {
+        static partial void RegisterHandlers() {
             packetHandlers = new Dictionary<int, PacketHandler>()
             {
                 { (int)ClientPackets.welcomeReceived, ServerHandle.WelcomeReceived },

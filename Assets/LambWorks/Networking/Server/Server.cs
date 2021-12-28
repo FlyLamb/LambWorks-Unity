@@ -81,8 +81,7 @@ namespace LambWorks.Networking.Server {
                         clients[clientId].udp.HandleData(packet);
                     }
                 }
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 Debug.Log($"Error receiving UDP data: {ex}");
             }
         }
@@ -95,8 +94,7 @@ namespace LambWorks.Networking.Server {
                 if (clientEndPoint != null) {
                     udpListener.BeginSend(packet.ToArray(), packet.Length(), clientEndPoint, null, null);
                 }
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 Debug.Log($"Error sending data to {clientEndPoint} via UDP: {ex}");
             }
         }
@@ -112,19 +110,23 @@ namespace LambWorks.Networking.Server {
         }
 
         public static void Stop() {
-            foreach(Client c in clients.Values) {
+            foreach (Client c in clients.Values) {
                 ServerSend.PlayerDisconnected(c.id);
             }
             clients.Clear();
             foreach (Entity e in entities.Values) GameObject.Destroy(e.gameObject);
             entities.Clear();
 
-            if(tcpListener != null)
+            if (tcpListener != null)
                 tcpListener.Stop();
             if (udpListener != null)
                 udpListener.Close();
 
         }
 
+        static partial void RegisterHandlers();
+
     }
+
+
 }
