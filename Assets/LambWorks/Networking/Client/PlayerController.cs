@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 
 namespace LambWorks.Networking.Client {
+    [AddComponentMenu("LambWorks/Networking/Client/Player Controller")]
+
     public class PlayerController : MonoBehaviour {
         public Transform camTransform;
 
