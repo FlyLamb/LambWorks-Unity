@@ -142,9 +142,9 @@ namespace LambWorks.Networking.Server {
 
                     if (packetHandlers.ContainsKey(key)) {
                         Debug.LogWarning($"Multiple methods implement the same packet! {v.Name} and {packetHandlers[key].Method.Name}");
-                        packetHandlers[key] = (f, p) => v.Invoke(null, new object[] { f, p });
-                    } else
-                        packetHandlers.Add(key, (f, p) => v.Invoke(null, new object[] { f, p }));
+                        packetHandlers.Remove(key);
+                    }
+                    packetHandlers.Add(key, (f, p) => v.Invoke(null, new object[] { f, p }));
                 }
             }
         }
