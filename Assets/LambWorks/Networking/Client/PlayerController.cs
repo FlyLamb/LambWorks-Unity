@@ -12,7 +12,7 @@ namespace LambWorks.Networking.Client {
 
         /// <summary>Sends player input to the server.</summary>
         private void SendInputToServer() {
-            bool[] _inputs = new bool[] {
+            bool[] inputs = new bool[] {
                 Input.GetKey(KeyCode.W),
                 Input.GetKey(KeyCode.S),
                 Input.GetKey(KeyCode.A),
@@ -20,7 +20,7 @@ namespace LambWorks.Networking.Client {
                 Input.GetKey(KeyCode.Space)
             };
 
-            ClientSend.PlayerMovement(_inputs);
+            SendMethods.PlayerMovement(inputs);
         }
     }
 }

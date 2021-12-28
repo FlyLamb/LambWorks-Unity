@@ -1,10 +1,10 @@
 ﻿namespace LambWorks.Networking.Client {
-    public partial class ClientSend {
+    public class SendMethods {
         /// <summary>Confirms the player id with the server, this is sent when Welcome is received</summary>
         public static void WelcomeReceived() {
             using (Packet packet = new Packet((int)ClientPackets.welcomeReceived)) {
                 packet.Write(Client.instance.myId);
-                SendTCPData(packet);
+                ClientSend.SendTCPData(packet);
             }
         }
 
@@ -18,7 +18,7 @@
                 }
                 packet.Write(GameManager.players[Client.instance.myId].transform.rotation);
 
-                SendUDPData(packet);
+                ClientSend.SendUDPData(packet);
             }
         }
 
@@ -32,7 +32,7 @@
                 packet.Write(message);
                 packet.WriteObject(parameter);
 
-                SendTCPData(packet);
+                ClientSend.SendTCPData(packet);
             }
         }
     }

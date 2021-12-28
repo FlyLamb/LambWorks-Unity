@@ -23,14 +23,14 @@ namespace LambWorks.Networking.Server {
 
         /// <summary>Sends all the entity data to the client</summary>
         public virtual void Send() {
-            ServerSend.UpdateEntity(this);
+            SendMethods.UpdateEntity(this);
         }
 
         /// <summary>Messages the client entity (basically calls a function by name)</summary>
         /// <param name="msg">The name of the function to call</param>
         /// <param name="args">Arguments to pass on to the function</param>
         public virtual void Message(string msg, object args = null) {
-            ServerSend.MessageEntity(this, msg, args);
+            SendMethods.MessageEntity(this, msg, args);
         }
 
         /// <summary>

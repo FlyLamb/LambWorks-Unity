@@ -4,7 +4,7 @@ namespace LambWorks.Networking.Client {
     /// <summary>
     /// The entity class is a gameObject synchronised between the client and server
     /// </summary>
-    [AddComponentMenu("LambWorks/Networking/Client/Client-Side Entity")] 
+    [AddComponentMenu("LambWorks/Networking/Client/Client-Side Entity")]
     public class Entity : MonoBehaviour {
         [HideInInspector] public uint id;
         public string model;
@@ -18,7 +18,7 @@ namespace LambWorks.Networking.Client {
         /// <param name="msg">The name of the function to call</param>
         /// <param name="args">Arguments to pass on to the function</param>
         public virtual void Message(string msg, object args = null) {
-            ClientSend.MessageEntity(this, msg, args);
+            SendMethods.MessageEntity(this, msg, args);
         }
 
         /// <summary>This function initializes the entity with provided data</summary>
@@ -35,7 +35,7 @@ namespace LambWorks.Networking.Client {
             transform.rotation = rotation;
             transform.localScale = scale;
             this.data = data;
-            if(onUpdate != null)
+            if (onUpdate != null)
                 onUpdate.Invoke();
         }
     }

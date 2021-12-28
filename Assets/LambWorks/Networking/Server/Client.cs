@@ -45,7 +45,7 @@ namespace LambWorks.Networking.Server {
 
                 stream.BeginRead(receiveBuffer, 0, dataBufferSize, ReceiveCallback, null);
 
-                ServerSend.Welcome(id, "Welcome to the server!");
+                SendMethods.Welcome(id, "Welcome to the server!");
             }
 
             /// <summary>Sends data to the client via TCP.</summary>
@@ -55,8 +55,7 @@ namespace LambWorks.Networking.Server {
                     if (socket != null) {
                         stream.BeginWrite(packet.ToArray(), 0, packet.Length(), null, null); // Send data to appropriate client
                     }
-                }
-                catch (Exception ex) {
+                } catch (Exception ex) {
                     Debug.Log($"Error sending data to player {id} via TCP: {ex}");
                 }
             }
@@ -75,8 +74,7 @@ namespace LambWorks.Networking.Server {
 
                     receivedData.Reset(HandleData(data)); // Reset receivedData if all data was handled
                     stream.BeginRead(receiveBuffer, 0, dataBufferSize, ReceiveCallback, null);
-                }
-                catch (Exception ex) {
+                } catch (Exception ex) {
                     Debug.Log($"Error receiving TCP data: {ex}");
                     Server.clients[id].Disconnect();
                 }
@@ -187,7 +185,7 @@ namespace LambWorks.Networking.Server {
             foreach (Client client in Server.clients.Values) {
                 if (client.player != null) {
                     if (client.id != id) {
-                        ServerSend.SpawnPlayer(id, client.player);
+                        SendMethods.SpawnPlayer(id, client.player);
                     }
                 }
             }
@@ -195,7 +193,7 @@ namespace LambWorks.Networking.Server {
             // Send the new player to all players (including himself)
             foreach (Client client in Server.clients.Values) {
                 if (client.player != null) {
-                    ServerSend.SpawnPlayer(client.id, player);
+                    SendMethods.SpawnPlayer(client.id, player);
                 }
             }
         }
@@ -212,8 +210,8 @@ namespace LambWorks.Networking.Server {
             tcp.Disconnect();
             udp.Disconnect();
 
-            ServerSend.PlayerDisconnected(id);
-            
+            SendMethods.PlayerDisconnected(id);
+
         }
     }
 }

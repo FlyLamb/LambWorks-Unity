@@ -11,7 +11,7 @@ namespace LambWorks.Networking.Client {
 
             Debug.Log($"Message from server: {msg}");
             Client.instance.myId = myId;
-            ClientSend.WelcomeReceived();
+            SendMethods.WelcomeReceived();
 
             // Now that we have the client's id, connect UDP
             Client.instance.udp.Connect(((IPEndPoint)Client.instance.tcp.socket.Client.LocalEndPoint).Port);

@@ -114,7 +114,7 @@ namespace LambWorks.Networking.Server {
 
         public static void Stop() {
             foreach (Client c in clients.Values) {
-                ServerSend.PlayerDisconnected(c.id);
+                SendMethods.PlayerDisconnected(c.id);
             }
             clients.Clear();
             foreach (Entity e in entities.Values) GameObject.Destroy(e.gameObject);

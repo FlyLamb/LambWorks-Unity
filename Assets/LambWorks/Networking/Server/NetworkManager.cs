@@ -37,7 +37,7 @@ namespace LambWorks.Networking.Server {
         /// <summary>This is called when a player joins</summary>
         public void OnPlayerJoin(int id) {
             foreach (var item in Server.entities.Values) {
-                ServerSend.SpawnEntity(item, id);
+                SendMethods.SpawnEntity(item, id);
             }
         }
 
@@ -53,7 +53,7 @@ namespace LambWorks.Networking.Server {
             }
             //Send an EntitySpawn packet to all
             e.id = i;
-            ServerSend.SpawnEntity(e);
+            SendMethods.SpawnEntity(e);
 
             //Add it to the server registry
             Server.entities.Add(i, e);
@@ -63,7 +63,7 @@ namespace LambWorks.Networking.Server {
         /// <param name="e">The entity to destroy</param>
         public void DestroyEntity(Entity e) {
             if (!Server.entities.ContainsKey(e.id)) return;
-            ServerSend.DestroyEntity(e);
+            SendMethods.DestroyEntity(e);
 
             Server.entities[e.id] = null;
         }

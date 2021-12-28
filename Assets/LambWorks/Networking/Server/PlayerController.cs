@@ -60,8 +60,8 @@ namespace LambWorks.Networking.Server {
             moveDirection.y = yVelocity;
             controller.Move(moveDirection);
 
-            ServerSend.PlayerPosition(this.GetComponent<Player>());
-            ServerSend.PlayerRotation(this.GetComponent<Player>());
+            SendMethods.PlayerPosition(this.GetComponent<Player>());
+            SendMethods.PlayerRotation(this.GetComponent<Player>());
         }
 
         /// <summary>Updates the player input with newly received input.</summary>

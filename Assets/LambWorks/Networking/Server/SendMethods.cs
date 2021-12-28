@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 namespace LambWorks.Networking.Server {
-    public partial class ServerSend {
+    public class SendMethods {
         /// <summary>Sends a welcome message to the given client.</summary>
         /// <param name="toClient">The client to send the packet to.</param>
         /// <param name="msg">The message to send.</param>
@@ -12,7 +12,7 @@ namespace LambWorks.Networking.Server {
                 packet.Write(msg);
                 packet.Write(toClient);
 
-                SendTCPData(toClient, packet);
+                ServerSend.SendTCPData(toClient, packet);
             }
         }
 
@@ -27,7 +27,7 @@ namespace LambWorks.Networking.Server {
                 packet.Write(player.transform.position);
                 packet.Write(player.transform.rotation);
 
-                SendTCPData(toClient, packet);
+                ServerSend.SendTCPData(toClient, packet);
             }
         }
 
@@ -38,7 +38,7 @@ namespace LambWorks.Networking.Server {
                 packet.Write(player.id);
                 packet.Write(player.transform.position);
 
-                SendUDPDataToAll(packet);
+                ServerSend.SendUDPDataToAll(packet);
             }
         }
 
@@ -49,7 +49,7 @@ namespace LambWorks.Networking.Server {
                 packet.Write(player.id);
                 packet.Write(player.transform.rotation);
 
-                SendUDPDataToAll(player.id, packet);
+                ServerSend.SendUDPDataToAll(player.id, packet);
             }
         }
 
@@ -59,7 +59,7 @@ namespace LambWorks.Networking.Server {
             using (Packet packet = new Packet((int)ServerPackets.playerDisconnected)) {
                 packet.Write(playerId);
 
-                SendTCPDataToAll(packet);
+                ServerSend.SendTCPDataToAll(packet);
             }
         }
 
@@ -73,7 +73,7 @@ namespace LambWorks.Networking.Server {
                 packet.Write(entity.transform.localScale);
                 packet.WriteObject(entity.GetData());
 
-                SendUDPDataToAll(packet);
+                ServerSend.SendUDPDataToAll(packet);
             }
         }
 
@@ -89,9 +89,9 @@ namespace LambWorks.Networking.Server {
                 packet.Write(entity.transform.localScale);
 
                 if (toClient == -1)
-                    SendTCPDataToAll(packet);
+                    ServerSend.SendTCPDataToAll(packet);
                 else
-                    SendTCPData(toClient, packet);
+                    ServerSend.SendTCPData(toClient, packet);
             }
         }
 
@@ -101,7 +101,7 @@ namespace LambWorks.Networking.Server {
             using (Packet packet = new Packet((int)ServerPackets.entityDestroy)) {
                 packet.Write(entity.id);
 
-                SendTCPDataToAll(packet);
+                ServerSend.SendTCPDataToAll(packet);
             }
         }
 
@@ -115,7 +115,7 @@ namespace LambWorks.Networking.Server {
                 packet.Write(message);
                 packet.WriteObject(parameter);
 
-                SendTCPDataToAll(packet);
+                ServerSend.SendTCPDataToAll(packet);
             }
         }
     }
