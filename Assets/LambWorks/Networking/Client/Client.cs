@@ -266,7 +266,7 @@ namespace LambWorks.Networking.Client {
         private static void RegisterHandlers() {
             packetHandlers = new Dictionary<int, PacketHandler>();
             RegisterFromAssembly(Assembly.GetAssembly(typeof(Client)));
-            var assemblies = AppDomain.CurrentDomain.GetAssemblies().Where(w => Regex.Matches(w.FullName, "System|Unity|mscore|Mono").Count == 0);
+            var assemblies = AppDomain.CurrentDomain.GetAssemblies().Where(w => Regex.Matches(w.FullName, "System|Unity|mscore|Mono|Lamb").Count == 0);
             foreach (var assembly in assemblies) {
                 RegisterFromAssembly(assembly);
             }

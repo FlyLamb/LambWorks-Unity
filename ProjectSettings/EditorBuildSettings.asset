@@ -6,12 +6,12 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/SampleScene.unity
+    path: Assets/Example/Scenes/SampleScene.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
   - enabled: 1
-    path: Assets/LambWorks/Networking/Client/Scenes/Main.unity
+    path: Assets/Example/Scenes/Client.unity
     guid: df1b584a1801bb74a863186234b910bd
   - enabled: 1
-    path: Assets/LambWorks/Networking/Server/Scenes/Game.unity
+    path: Assets/Example/Scenes/Multiplayer.unity
     guid: 3c480f0cfc32ace4693e3e03a67ed96e
   m_configObjects: {}

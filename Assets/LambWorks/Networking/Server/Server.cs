@@ -130,7 +130,7 @@ namespace LambWorks.Networking.Server {
         private static void RegisterHandlers() {
             packetHandlers = new Dictionary<int, PacketHandler>();
             RegisterFromAssembly(Assembly.GetAssembly(typeof(Server))); // load our methods first
-            var assemblies = AppDomain.CurrentDomain.GetAssemblies().Where(w => Regex.Matches(w.FullName, "System|Unity|mscore|Mono|LambWorks").Count == 0);
+            var assemblies = AppDomain.CurrentDomain.GetAssemblies().Where(w => Regex.Matches(w.FullName, "System|Unity|mscore|Mono|Lamb").Count == 0);
             foreach (var assembly in assemblies) {
                 RegisterFromAssembly(assembly);
             }
