@@ -16,7 +16,7 @@ namespace LambWorks.Networking.Server {
             }
             Quaternion rotation = packet.ReadQuaternion();
 
-            Server.clients[fromClient].player.SetInput(inputs, rotation);
+            Server.clients[fromClient].player.GetComponent<PlayerController>().SetInput(inputs, rotation);
         }
 
         [ServerHandler((int)ClientPackets.entityMessage)]

@@ -51,6 +51,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -92,6 +93,7 @@ GameObject:
   - component: {fileID: 6574823444410646575}
   - component: {fileID: 1920120271202843960}
   - component: {fileID: 2319307683833354698}
+  - component: {fileID: -2003958650913426284}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -129,10 +131,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 0
   username: 
-  controller: {fileID: 2319307683833354698}
-  gravity: -9.81
-  moveSpeed: 5
-  jumpSpeed: 5
 --- !u!143 &2319307683833354698
 CharacterController:
   m_ObjectHideFlags: 0
@@ -151,6 +149,22 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: -0.1, z: 0}
+--- !u!114 &-2003958650913426284
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4187005777591049097}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15b80318cf1bd6f2eb0618229be9643e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  controller: {fileID: 2319307683833354698}
+  gravity: -9.81
+  moveSpeed: 5
+  jumpSpeed: 5
 --- !u!1 &5842331344950954625
 GameObject:
   m_ObjectHideFlags: 0
