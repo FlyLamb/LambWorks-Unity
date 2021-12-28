@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
 using UnityEngine;
+using System.Reflection;
 
 namespace LambWorks.Networking.Client {
     [AddComponentMenu("LambWorks/Networking/Client/Client")]
@@ -264,7 +265,9 @@ namespace LambWorks.Networking.Client {
         static partial void RegisterDefaultHandlers();
 
         /// <summary>Registers user created handlers</summary>
-        static partial void RegisterHandlers();
+        protected virtual void RegisterHandlers() {
+
+        }
 
         /// <summary>Disconnects from the server and stops all network traffic.</summary>
         public void Disconnect() {
