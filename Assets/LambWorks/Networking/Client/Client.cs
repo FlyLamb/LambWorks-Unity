@@ -276,7 +276,11 @@ namespace LambWorks.Networking.Client {
                     Debug.Log("Register packet " + key
                      + " to be handled by " + v.Name);
 
-                    packetHandlers.Add(key, (p) => v.Invoke(null, new object[] { p }));
+                    if (packetHandlers.ContainsKey(key)) {
+                        Debug.LogWarning($"Multiple methods implement the same packet! {v.Name} and {packetHandlers[key].Method.Name}");
+                        packetHandlers[key] = (p) => v.Invoke(null, new object[] { p });
+                    } else
+                        packetHandlers.Add(key, (p) => v.Invoke(null, new object[] { p }));
                 }
             }
         }
