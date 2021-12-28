@@ -5,6 +5,7 @@ using System.Net.Sockets;
 using UnityEngine;
 using System.Reflection;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace LambWorks.Networking.Client {
     [AddComponentMenu("LambWorks/Networking/Client/Client")]
@@ -257,19 +258,14 @@ namespace LambWorks.Networking.Client {
 
         /// <summary>Initializes all necessary client data.</summary>
         private void InitializeClientData() {
-            //RegisterDefaultHandlers();
             RegisterHandlers();
             Debug.Log("Initialized packets.");
         }
 
-        /// <summary>Registers default client handlers</summary>
-        static partial void RegisterDefaultHandlers();
-
         /// <summary>Registers user created handlers</summary>
-        private void RegisterHandlers() {
+        private static void RegisterHandlers() {
             packetHandlers = new Dictionary<int, PacketHandler>();
-            var assemblies = AppDomain.CurrentDomain.GetAssemblies();
-            Debug.Log("Scanning " + assemblies.Count());
+            var assemblies = AppDomain.CurrentDomain.GetAssemblies().Where(w => Regex.Matches(w.FullName, "System|Unity|mscore|Mono").Count == 0);
             foreach (var assembly in assemblies) {
                 var methods = assembly.GetTypes()
                           .SelectMany(t => t.GetMethods())

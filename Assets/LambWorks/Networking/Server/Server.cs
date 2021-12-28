@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
 using UnityEngine;
+using System.Linq;
+using System.Reflection;
+using System.Text.RegularExpressions;
 
 namespace LambWorks.Networking.Server {
     public partial class Server {
@@ -105,7 +108,7 @@ namespace LambWorks.Networking.Server {
                 clients.Add(i, new Client(i));
             }
 
-            RegisterDefaultHandlers();
+            RegisterHandlers();
             Debug.Log("Initialized packets.");
         }
 
@@ -124,7 +127,23 @@ namespace LambWorks.Networking.Server {
 
         }
 
-        static partial void RegisterDefaultHandlers();
+        private static void RegisterHandlers() {
+            packetHandlers = new Dictionary<int, PacketHandler>();
+            var assemblies = AppDomain.CurrentDomain.GetAssemblies().Where(w => Regex.Matches(w.FullName, "System|Unity|mscore|Mono").Count == 0);
+            foreach (var assembly in assemblies) {
+                var methods = assembly.GetTypes()
+                          .SelectMany(t => t.GetMethods())
+                          .Where(m => m.GetCustomAttributes(typeof(ServerHandlerAttribute), false).Length > 0)
+                          .ToArray();
+                foreach (var v in methods) {
+                    int key = v.GetCustomAttributes<ServerHandlerAttribute>().First().receivedPacket;
+                    Debug.Log("Register packet " + key
+                     + " to be handled by " + v.Name);
+
+                    packetHandlers.Add(key, (f, p) => v.Invoke(null, new object[] { f, p }));
+                }
+            }
+        }
 
     }
 
