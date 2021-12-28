@@ -4,6 +4,7 @@ using UnityEngine;
 namespace LambWorks.Networking.Client {
 
     public class ClientHandle {
+        [ClientHandler((int)ServerPackets.welcome)]
         public static void Welcome(Packet packet) {
             string msg = packet.ReadString();
             int myId = packet.ReadInt();
@@ -16,6 +17,7 @@ namespace LambWorks.Networking.Client {
             Client.instance.udp.Connect(((IPEndPoint)Client.instance.tcp.socket.Client.LocalEndPoint).Port);
         }
 
+        [ClientHandler((int)ServerPackets.spawnPlayer)]
         public static void SpawnPlayer(Packet packet) {
             int id = packet.ReadInt();
             string username = packet.ReadString();
@@ -25,6 +27,7 @@ namespace LambWorks.Networking.Client {
             GameManager.instance.SpawnPlayer(id, username, position, rotation);
         }
 
+        [ClientHandler((int)ServerPackets.playerPosition)]
         public static void PlayerPosition(Packet packet) {
             int id = packet.ReadInt();
             Vector3 position = packet.ReadVector3();
@@ -34,6 +37,7 @@ namespace LambWorks.Networking.Client {
             }
         }
 
+        [ClientHandler((int)ServerPackets.playerRotation)]
         public static void PlayerRotation(Packet packet) {
             int id = packet.ReadInt();
             Quaternion rotation = packet.ReadQuaternion();
@@ -43,6 +47,7 @@ namespace LambWorks.Networking.Client {
             }
         }
 
+        [ClientHandler((int)ServerPackets.playerDisconnected)]
         public static void PlayerDisconnected(Packet packet) {
             int id = packet.ReadInt();
             if (id == Client.instance.myId) {
@@ -55,6 +60,7 @@ namespace LambWorks.Networking.Client {
             }
         }
 
+        [ClientHandler((int)ServerPackets.entitySpawn)]
         public static void SpawnEntity(Packet packet) {
             string model = packet.ReadString();
             uint id = (uint)packet.ReadLong();
@@ -65,6 +71,7 @@ namespace LambWorks.Networking.Client {
             GameManager.instance.SpawnEntity(model, id, position, rotation, scale);
         }
 
+        [ClientHandler((int)ServerPackets.entityUpdate)]
         public static void UpdateEntity(Packet packet) {
             uint id = (uint)packet.ReadLong();
             Vector3 position = packet.ReadVector3();
@@ -75,11 +82,13 @@ namespace LambWorks.Networking.Client {
             GameManager.entities[id].UpdateEntity(position, rotation, scale, data);
         }
 
+        [ClientHandler((int)ServerPackets.entityDestroy)]
         public static void DestroyEntity(Packet packet) {
             uint id = (uint)packet.ReadLong();
             GameManager.instance.KillEntity(id);
         }
 
+        [ClientHandler((int)ServerPackets.entityMessage)]
         public static void MessageEntity(Packet packet) {
             uint id = (uint)packet.ReadLong();
             string msg = packet.ReadString();

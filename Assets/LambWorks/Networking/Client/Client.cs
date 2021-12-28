@@ -4,6 +4,7 @@ using System.Net;
 using System.Net.Sockets;
 using UnityEngine;
 using System.Reflection;
+using System.Linq;
 
 namespace LambWorks.Networking.Client {
     [AddComponentMenu("LambWorks/Networking/Client/Client")]
@@ -19,8 +20,8 @@ namespace LambWorks.Networking.Client {
         public UDP udp;
 
         private bool isConnected = false;
-        private delegate void PacketHandler(Packet packet);
-        private static Dictionary<int, PacketHandler> packetHandlers;
+        protected delegate void PacketHandler(Packet packet);
+        protected static Dictionary<int, PacketHandler> packetHandlers;
 
         private void Awake() {
             if (instance == null) {
@@ -256,7 +257,7 @@ namespace LambWorks.Networking.Client {
 
         /// <summary>Initializes all necessary client data.</summary>
         private void InitializeClientData() {
-            RegisterDefaultHandlers();
+            //RegisterDefaultHandlers();
             RegisterHandlers();
             Debug.Log("Initialized packets.");
         }
@@ -265,8 +266,23 @@ namespace LambWorks.Networking.Client {
         static partial void RegisterDefaultHandlers();
 
         /// <summary>Registers user created handlers</summary>
-        protected virtual void RegisterHandlers() {
+        private void RegisterHandlers() {
+            packetHandlers = new Dictionary<int, PacketHandler>();
+            var assemblies = AppDomain.CurrentDomain.GetAssemblies();
+            Debug.Log("Scanning " + assemblies.Count());
+            foreach (var assembly in assemblies) {
+                var methods = assembly.GetTypes()
+                          .SelectMany(t => t.GetMethods())
+                          .Where(m => m.GetCustomAttributes(typeof(ClientHandlerAttribute), false).Length > 0)
+                          .ToArray();
+                foreach (var v in methods) {
+                    int key = v.GetCustomAttributes<ClientHandlerAttribute>().First().receivedPacket;
+                    Debug.Log("Register packet " + key
+                     + " to be handled by " + v.Name);
 
+                    packetHandlers.Add(key, (p) => v.Invoke(null, new object[] { p }));
+                }
+            }
         }
 
         /// <summary>Disconnects from the server and stops all network traffic.</summary>

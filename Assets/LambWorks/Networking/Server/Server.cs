@@ -105,7 +105,7 @@ namespace LambWorks.Networking.Server {
                 clients.Add(i, new Client(i));
             }
 
-            RegisterHandlers();
+            RegisterDefaultHandlers();
             Debug.Log("Initialized packets.");
         }
 
@@ -124,7 +124,7 @@ namespace LambWorks.Networking.Server {
 
         }
 
-        static partial void RegisterHandlers();
+        static partial void RegisterDefaultHandlers();
 
     }
 
