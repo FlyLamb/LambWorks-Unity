@@ -265,23 +265,28 @@ namespace LambWorks.Networking.Client {
         /// <summary>Registers user created handlers</summary>
         private static void RegisterHandlers() {
             packetHandlers = new Dictionary<int, PacketHandler>();
+            RegisterFromAssembly(Assembly.GetAssembly(typeof(Client)));
             var assemblies = AppDomain.CurrentDomain.GetAssemblies().Where(w => Regex.Matches(w.FullName, "System|Unity|mscore|Mono").Count == 0);
             foreach (var assembly in assemblies) {
-                var methods = assembly.GetTypes()
-                          .SelectMany(t => t.GetMethods())
-                          .Where(m => m.GetCustomAttributes(typeof(ClientHandlerAttribute), false).Length > 0)
-                          .ToArray();
-                foreach (var v in methods) {
-                    int key = v.GetCustomAttributes<ClientHandlerAttribute>().First().receivedPacket;
-                    Debug.Log("Register packet " + key
-                     + " to be handled by " + v.Name);
+                RegisterFromAssembly(assembly);
+            }
+        }
 
-                    if (packetHandlers.ContainsKey(key)) {
-                        Debug.LogWarning($"Multiple methods implement the same packet! {v.Name} and {packetHandlers[key].Method.Name}");
-                        packetHandlers[key] = (p) => v.Invoke(null, new object[] { p });
-                    } else
-                        packetHandlers.Add(key, (p) => v.Invoke(null, new object[] { p }));
-                }
+        private static void RegisterFromAssembly(Assembly assembly) {
+            var methods = assembly.GetTypes()
+                         .SelectMany(t => t.GetMethods())
+                         .Where(m => m.GetCustomAttributes(typeof(ClientHandlerAttribute), false).Length > 0)
+                         .ToArray();
+            foreach (var v in methods) {
+                int key = v.GetCustomAttributes<ClientHandlerAttribute>().First().receivedPacket;
+                Debug.Log("Register packet " + key
+                 + " to be handled by " + v.Name);
+
+                if (packetHandlers.ContainsKey(key)) {
+                    Debug.LogWarning($"Multiple methods implement the same packet! {v.Name} and {packetHandlers[key].Method.Name}");
+                    packetHandlers[key] = (p) => v.Invoke(null, new object[] { p });
+                } else
+                    packetHandlers.Add(key, (p) => v.Invoke(null, new object[] { p }));
             }
         }
 
