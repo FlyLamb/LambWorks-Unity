@@ -2,13 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace LambWorks.Networking.Client {
+// Written by Tom Weiland; Unmodified.
+
+
+namespace LambWorks.Networking {
+
+    [AddComponentMenu("LambWorks/Networking/Thread Manager")]
     public class ThreadManager : MonoBehaviour {
         private static readonly List<Action> executeOnMainThread = new List<Action>();
         private static readonly List<Action> executeCopiedOnMainThread = new List<Action>();
         private static bool actionToExecuteOnMainThread = false;
 
-        private void Update() {
+        private void FixedUpdate() {
             UpdateMain();
         }
 

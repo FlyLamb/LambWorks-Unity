@@ -5,6 +5,8 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using UnityEngine;
 
+// Written by Tom Weiland; Unmodified.
+
 namespace LambWorks.Networking {
     public class Packet : IDisposable {
         private List<byte> buffer;
@@ -152,7 +154,7 @@ namespace LambWorks.Networking {
             bf.Serialize(ms, _value);
             Write(ms.ToArray().Length); // first we write the length of the object's byte representation
             Write(ms.ToArray()); // than we write the representation itself
-        } 
+        }
         #endregion
 
         #region Read Data
@@ -280,8 +282,7 @@ namespace LambWorks.Networking {
                     readPos += _length; // Increase readPos by the length of the string
                 }
                 return _value; // Return the string
-            }
-            catch {
+            } catch {
                 throw new Exception("Could not read value of type 'string'!");
             }
         }
@@ -305,7 +306,7 @@ namespace LambWorks.Networking {
             if (length == 0) return null; // object was null or empty
             byte[] bytes = ReadBytes(length, _moveReadPos);
 
-            using MemoryStream memStream = new MemoryStream(); 
+            using MemoryStream memStream = new MemoryStream();
             BinaryFormatter bf = new BinaryFormatter();
             memStream.Write(bytes, 0, length);
             memStream.Seek(0, SeekOrigin.Begin);

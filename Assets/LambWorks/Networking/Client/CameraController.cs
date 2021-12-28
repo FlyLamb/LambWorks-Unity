@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 
 namespace LambWorks.Networking.Client {
+
+    [AddComponentMenu("LambWorks/Networking/Client/Client/Standard Camera Controller")]
     public class CameraController : MonoBehaviour {
         public PlayerManager player;
         public float sensitivity = 100f;

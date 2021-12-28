@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
 using UnityEngine;
+
 namespace LambWorks.Networking.Client {
+    [AddComponentMenu("LambWorks/Networking/Client/Client")]
     public partial class Client : MonoBehaviour {
         public static Client instance;
         public static int dataBufferSize = 4096;
@@ -52,13 +54,14 @@ namespace LambWorks.Networking.Client {
 
             /// <summary>Attempts to connect to the server via TCP.</summary>
             public void Connect() {
-                socket = new TcpClient {
+                socket = new TcpClient
+                {
                     ReceiveBufferSize = dataBufferSize,
                     SendBufferSize = dataBufferSize
                 };
 
                 receiveBuffer = new byte[dataBufferSize];
-                
+
                 var ar = socket.BeginConnect(instance.ip, instance.port, ConnectCallback, socket);
                 System.Threading.WaitHandle wh = ar.AsyncWaitHandle;
                 try {
@@ -66,9 +69,8 @@ namespace LambWorks.Networking.Client {
                         socket.Close(); //We have timed out!
                         UnityEngine.SceneManagement.SceneManager.LoadScene(0); //this line is here so that we go back to the menu
                         return;
-                    }             
-                }
-                finally {
+                    }
+                } finally {
                     wh.Close();
                 }
             }
@@ -96,8 +98,7 @@ namespace LambWorks.Networking.Client {
                     if (socket != null) {
                         stream.BeginWrite(packet.ToArray(), 0, packet.Length(), null, null); // Send data to server
                     }
-                }
-                catch (Exception ex) {
+                } catch (Exception ex) {
                     Debug.Log($"Error sending data to server via TCP: {ex}");
                 }
             }
@@ -116,8 +117,7 @@ namespace LambWorks.Networking.Client {
 
                     receivedData.Reset(HandleData(data)); // Reset receivedData if all data was handled
                     stream.BeginRead(receiveBuffer, 0, dataBufferSize, ReceiveCallback, null);
-                }
-                catch {
+                } catch {
                     Disconnect();
                 }
             }
@@ -206,8 +206,7 @@ namespace LambWorks.Networking.Client {
                     if (socket != null) {
                         socket.BeginSend(packet.ToArray(), packet.Length(), null, null);
                     }
-                }
-                catch (Exception ex) {
+                } catch (Exception ex) {
                     Debug.Log($"Error sending data to server via UDP: {ex}");
                 }
             }
@@ -224,8 +223,7 @@ namespace LambWorks.Networking.Client {
                     }
 
                     HandleData(data);
-                }
-                catch {
+                } catch {
                     Disconnect();
                 }
             }
@@ -257,9 +255,16 @@ namespace LambWorks.Networking.Client {
 
         /// <summary>Initializes all necessary client data.</summary>
         private void InitializeClientData() {
+            RegisterDefaultHandlers();
             RegisterHandlers();
             Debug.Log("Initialized packets.");
         }
+
+        /// <summary>Registers default client handlers</summary>
+        static partial void RegisterDefaultHandlers();
+
+        /// <summary>Registers user created handlers</summary>
+        static partial void RegisterHandlers();
 
         /// <summary>Disconnects from the server and stops all network traffic.</summary>
         public void Disconnect() {
@@ -270,8 +275,8 @@ namespace LambWorks.Networking.Client {
 
                 GameManager.entities = new Dictionary<uint, Entity>();
                 tcp.socket.Close();
-                if(udp.socket != null)
-                udp.socket.Close();
+                if (udp.socket != null)
+                    udp.socket.Close();
 
                 Debug.Log("Disconnected from server.");
             }

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace LambWorks.Networking.Client {
+
+    [AddComponentMenu("LambWorks/Networking/Client/Interpolated Entity")]
     public class LerpedEntity : Entity {
 
         public float lerpSpeed = 5;

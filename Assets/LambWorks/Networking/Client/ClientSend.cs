@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 namespace LambWorks.Networking.Client {
-    public partial class ClientSend : MonoBehaviour {
+    public partial class ClientSend {
         /// <summary>Sends a packet to the server via TCP.</summary>
         /// <param name="packet">The packet to send to the sever.</param>
         private static void SendTCPData(Packet packet) {

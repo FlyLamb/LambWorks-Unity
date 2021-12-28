@@ -1,11 +1,14 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+
 namespace LambWorks.Networking.Server {
+    [AddComponentMenu("LambWorks/Networking/Server/Network Manager")]
     public class NetworkManager : MonoBehaviour {
         public static NetworkManager instance;
 
         public GameObject playerPrefab;
 
+        public int maxPlayers = 5, port = 26950;
 
         private void Awake() {
             if (instance == null) {
@@ -20,7 +23,7 @@ namespace LambWorks.Networking.Server {
             QualitySettings.vSyncCount = 0;
             Application.targetFrameRate = 30;
 
-            Server.Start(50, 26950);
+            Server.Start(maxPlayers, port);
         }
 
         private void OnApplicationQuit() {
@@ -41,7 +44,6 @@ namespace LambWorks.Networking.Server {
         /// <summary>Needs to be called by the entity in order to be registered</summary>
         /// <param name="e">The entity to register</param>
         public void RegisterEntity(Entity e) {
-
             List<uint> keys = new List<uint>(Server.entities.Keys);
             //Get first free ID
             uint i;

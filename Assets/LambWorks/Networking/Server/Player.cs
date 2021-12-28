@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 
 namespace LambWorks.Networking.Server {
+
+    [AddComponentMenu("LambWorks/Networking/Server/Player Controller")]
+
     public class Player : MonoBehaviour {
         public int id;
         public string username;

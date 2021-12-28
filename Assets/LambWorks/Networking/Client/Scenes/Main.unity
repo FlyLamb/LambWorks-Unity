@@ -322,6 +322,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -419,6 +420,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ip: 127.0.0.1
   port: 26950
+  timeout: 3
   myId: 0
 --- !u!4 &630787562
 Transform:
@@ -443,7 +445,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 630787560}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ecf5333aac5d2064e8c270f6aa032cca, type: 3}
+  m_Script: {fileID: 11500000, guid: a454fd2fa92db746abec03031ac4bb33, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &630787564
