@@ -33,7 +33,7 @@ namespace LambWorks.Networking.Client {
             Vector3 position = packet.ReadVector3();
 
             if (GameManager.players.TryGetValue(id, out PlayerManager player)) {
-                player.transform.position = position;
+                player.targetPosition = position;
             }
         }
 
