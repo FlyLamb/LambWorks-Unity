@@ -9,12 +9,26 @@ namespace LambWorks.Networking.Server {
         [HideInInspector] public uint id = 0;
         public string model;
 
+        [Tooltip("The minimal change in coordinates required for the entity to get updated")]
+        public float movementThreshold = 0.05f;
+        [Tooltip("The minimal change in angle required for the entity to get updated")]
+        public float roationThreshold = 1f;
+
+        private Vector3 lastPosition;
+        private Quaternion lastRotation;
+
         protected virtual void Start() {
             NetworkManager.instance.RegisterEntity(this);
         }
 
+        private bool CoordinateDistance(Vector3 w, float t) {
+            return Mathf.Abs(w.x) >= t || Mathf.Abs(w.y) >= t || Mathf.Abs(w.z) >= t;
+        }
+
         protected virtual void FixedUpdate() {
-            Send();
+            if (Quaternion.Angle(transform.rotation, lastRotation) >= roationThreshold ||
+            CoordinateDistance(transform.position - lastPosition, movementThreshold))
+                Send();
         }
 
         protected virtual void OnDestroy() {
