@@ -12,9 +12,9 @@ namespace LambWorks.Networking.Client {
         private Dictionary<string, NetworkedAnimatorField> fields;
         public Animator animator;
 
-        private void Start() {
+        private void Awake() {
             _metadata = metadata as IMetadataIO;
-            _metadata.IOGotData += OnGotData;
+            _metadata.IOGotData = OnGotData;
         }
 
         private void OnGotData() {

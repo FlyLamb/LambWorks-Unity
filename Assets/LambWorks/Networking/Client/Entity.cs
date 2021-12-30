@@ -42,7 +42,7 @@ namespace LambWorks.Networking.Client {
                 metadata[meta] = data;
             } else metadata.Add(meta, data);
 
-            if (invokeEvent) IOGotData.Invoke();
+            if (invokeEvent && IOGotData != null) IOGotData.Invoke();
         }
 
         public virtual object GetMetadata(string meta) {
