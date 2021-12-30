@@ -12,6 +12,7 @@ namespace LambWorks.Networking {
         entityUpdate,
         entitySpawn,
         entityDestroy,
-        entityMessage
+        entityMessage,
+        entityMetadata
     }
 }

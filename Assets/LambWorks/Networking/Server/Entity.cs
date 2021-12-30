@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace LambWorks.Networking.Server {
@@ -16,6 +17,8 @@ namespace LambWorks.Networking.Server {
 
         private Vector3 lastPosition;
         private Quaternion lastRotation;
+
+        private Dictionary<string, object> metadata;
 
         protected virtual void Start() {
             NetworkManager.instance.RegisterEntity(this);
@@ -47,12 +50,20 @@ namespace LambWorks.Networking.Server {
             SendMethods.MessageEntity(this, msg, args);
         }
 
-        /// <summary>
-        /// This function should return all the metadata of the entity as an object
-        /// </summary>
-        /// <returns>The metadata of the entity</returns>
-        public virtual object GetData() {
-            return null;
+        public void SetMetadata(string meta, object data, TransportType send = TransportType.dummy) {
+            if (!metadata.ContainsKey(meta)) {
+                metadata.Add(meta, data);
+                SendMethods.MetadataEntity(this, meta, data, send);
+            } else if (metadata[meta] != data) {
+                metadata[meta] = data;
+                SendMethods.MetadataEntity(this, meta, data, send);
+            }
+        }
+
+        public object GetMetadata(string meta) {
+            if (metadata.TryGetValue(meta, out object data)) {
+                return data;
+            } else return null;
         }
 
     }

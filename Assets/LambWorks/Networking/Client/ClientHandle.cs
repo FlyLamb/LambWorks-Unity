@@ -86,9 +86,8 @@ namespace LambWorks.Networking.Client {
             Vector3 position = packet.ReadVector3();
             Quaternion rotation = packet.ReadQuaternion();
             Vector3 scale = packet.ReadVector3();
-            object data = packet.ReadObject();
 
-            GameManager.entities[id].UpdateEntity(position, rotation, scale, data);
+            GameManager.entities[id].UpdateEntity(position, rotation, scale);
         }
 
         [ClientHandler((int)ServerPackets.entityDestroy)]
@@ -104,6 +103,15 @@ namespace LambWorks.Networking.Client {
             object obj = packet.ReadObject();
 
             GameManager.entities[id].SendMessage(msg, obj);
+        }
+
+        [ClientHandler((int)ServerPackets.entityMetadata)]
+        public static void MetadataEntity(Packet packet) {
+            uint id = (uint)packet.ReadLong();
+            string meta = packet.ReadString();
+            object data = packet.ReadObject();
+
+            GameManager.entities[id].SetMetadata(meta, data);
         }
     }
 }

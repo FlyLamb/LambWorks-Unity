@@ -12,18 +12,16 @@ namespace LambWorks.Networking.Client {
         private Quaternion dRot = Quaternion.identity;
         private Vector3 dSca = Vector3.zero;
 
-        public override void UpdateEntity(Vector3 position, Quaternion rotation, Vector3 scale, object data) {
+        public override void UpdateEntity(Vector3 position, Quaternion rotation, Vector3 scale) {
             dPos = position;
             dRot = rotation;
             dSca = scale;
-            this.data = data;
         }
 
         private void Update() {
             transform.position = Vector3.Lerp(transform.position, dPos, Time.deltaTime * lerpSpeed);
             transform.rotation = Quaternion.Lerp(transform.rotation, dRot, Time.deltaTime * lerpSpeed);
             transform.localScale = Vector3.Lerp(transform.localScale, dSca, Time.deltaTime * lerpSpeed);
-            Debug.Log(data);
         }
     }
 

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace LambWorks.Networking.Client {
@@ -8,11 +9,8 @@ namespace LambWorks.Networking.Client {
     public class Entity : MonoBehaviour {
         [HideInInspector] public uint id;
         public string model;
-        public object data;
+        public Dictionary<string, object> metadata;
 
-        public delegate void OnReceivedUpdate();
-        /// <summary>This is called when we receive an update to the entity.</summary>
-        public OnReceivedUpdate onUpdate;
 
         /// <summary>Messages the server entity (basically calls a function by name)</summary>
         /// <param name="msg">The name of the function to call</param>
@@ -30,13 +28,22 @@ namespace LambWorks.Networking.Client {
         }
 
         /// <summary>Updates the entity data</summary>
-        public virtual void UpdateEntity(Vector3 position, Quaternion rotation, Vector3 scale, object data) {
+        public virtual void UpdateEntity(Vector3 position, Quaternion rotation, Vector3 scale) {
             transform.position = position;
             transform.rotation = rotation;
             transform.localScale = scale;
-            this.data = data;
-            if (onUpdate != null)
-                onUpdate.Invoke();
+        }
+
+        public virtual void SetMetadata(string meta, object data) {
+            if (metadata.ContainsKey(meta)) {
+                metadata[meta] = data;
+            } else metadata.Add(meta, data);
+        }
+
+        public virtual object GetMetadata(string meta) {
+            if (metadata.TryGetValue(meta, out object data)) {
+                return data;
+            } else return null;
         }
     }
 }

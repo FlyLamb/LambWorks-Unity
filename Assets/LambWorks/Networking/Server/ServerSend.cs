@@ -59,6 +59,22 @@
 
         ///<summary>Sends data to all clients using the provided transport</summary>
         ///<param name="transport">The transport to use</param>
+        ///<param name="packet">The packet to send</param>
+        public static void SendDataToAll(TransportType transport, Packet packet) {
+            switch (transport) {
+                case TransportType.dummy:
+                    return;
+                case TransportType.udp:
+                    SendUDPDataToAll(packet);
+                    break;
+                case TransportType.tcp:
+                    SendTCPDataToAll(packet);
+                    break;
+            }
+        }
+
+        ///<summary>Sends data to all clients using the provided transport</summary>
+        ///<param name="transport">The transport to use</param>
         ///<param name="except">The client to NOT send the data to</param>
         ///<param name="packet">The packet to send</param>
         public static void SendDataToAll(TransportType transport, int except, Packet packet) {
@@ -70,22 +86,6 @@
                     break;
                 case TransportType.tcp:
                     SendTCPDataToAll(except, packet);
-                    break;
-            }
-        }
-
-        ///<summary>Sends data to all clients using the provided transport</summary>
-        ///<param name="transport">The transport to use</param>
-        ///<param name="packet">The packet to send</param>
-        public static void SendDataToAll(TransportType transport, Packet packet) {
-            switch (transport) {
-                case TransportType.dummy:
-                    return;
-                case TransportType.udp:
-                    SendUDPDataToAll(packet);
-                    break;
-                case TransportType.tcp:
-                    SendTCPDataToAll(packet);
                     break;
             }
         }

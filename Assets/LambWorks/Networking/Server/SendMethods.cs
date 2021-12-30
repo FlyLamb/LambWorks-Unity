@@ -81,7 +81,6 @@ namespace LambWorks.Networking.Server {
                 packet.Write(entity.transform.position);
                 packet.Write(entity.transform.rotation);
                 packet.Write(entity.transform.localScale);
-                packet.WriteObject(entity.GetData());
 
                 ServerSend.SendUDPDataToAll(packet);
             }
@@ -126,6 +125,16 @@ namespace LambWorks.Networking.Server {
                 packet.WriteObject(parameter);
 
                 ServerSend.SendTCPDataToAll(packet);
+            }
+        }
+
+        public static void MetadataEntity(Entity entity, string meta, object data, TransportType transport) {
+            using (Packet packet = new Packet((int)ServerPackets.entityMetadata)) {
+                packet.Write(entity.id);
+                packet.Write(meta);
+                packet.WriteObject(data);
+
+                ServerSend.SendDataToAll(transport, packet);
             }
         }
     }
