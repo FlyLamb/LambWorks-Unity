@@ -51,7 +51,7 @@ namespace LambWorks.Networking.Client {
             } else return null;
         }
 
-        public void IOWriteMetadata(string meta, object data) => SetMetadata(meta, data);
+        public void IOWriteMetadata(string meta, object data, TransportType transportType) => SetMetadata(meta, data);
 
         public object IOReadMetadata(string meta) => GetMetadata(meta);
 

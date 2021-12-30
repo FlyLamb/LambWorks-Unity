@@ -16,27 +16,27 @@ namespace LambWorks.Networking.Server {
             fields = new Dictionary<string, NetworkedAnimatorField>();
         }
 
-        public void SetBool(string n, bool value) {
+        public void SetBool(string n, bool value, TransportType transportType = TransportType.udp) {
             if (fields.ContainsKey(n)) {
                 if ((bool)fields[n].value != value) {
                     fields[n] = new NetworkedAnimatorField(1, value);
-                    _metadata.IOWriteMetadata("animator", fields);
+                    _metadata.IOWriteMetadata("animator", fields, transportType);
                 }
             } else {
                 fields.Add(n, new NetworkedAnimatorField(1, value));
-                _metadata.IOWriteMetadata("animator", fields);
+                _metadata.IOWriteMetadata("animator", fields, transportType);
             }
         }
 
-        public void SetFloat(string n, float value) {
+        public void SetFloat(string n, float value, TransportType transportType = TransportType.udp) {
             if (fields.ContainsKey(n)) {
                 if ((float)fields[n].value != value) {
                     fields[n] = new NetworkedAnimatorField(0, value);
-                    _metadata.IOWriteMetadata("animator", fields);
+                    _metadata.IOWriteMetadata("animator", fields, transportType);
                 }
             } else {
                 fields.Add(n, new NetworkedAnimatorField(0, value));
-                _metadata.IOWriteMetadata("animator", fields);
+                _metadata.IOWriteMetadata("animator", fields, transportType);
             }
         }
     }

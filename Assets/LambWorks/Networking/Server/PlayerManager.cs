@@ -33,7 +33,7 @@ namespace LambWorks.Networking.Server {
             } else return null;
         }
 
-        public void IOWriteMetadata(string meta, object data) => SetMetadata(meta, data);
+        public void IOWriteMetadata(string meta, object data, TransportType transportType) => SetMetadata(meta, data, transportType);
 
         public object IOReadMetadata(string meta) => GetMetadata(meta);
 
