@@ -60,6 +60,15 @@ namespace LambWorks.Networking.Client {
             }
         }
 
+        [ClientHandler((int)ServerPackets.playerMetadata)]
+        public static void PlayerMetadata(Packet packet) {
+            int id = packet.ReadInt();
+            string meta = packet.ReadString();
+            object obj = packet.ReadObject();
+
+            GameManager.players[id].SetMetadata(meta, obj);
+        }
+
         [ClientHandler((int)ServerPackets.entitySpawn)]
         public static void SpawnEntity(Packet packet) {
             string model = packet.ReadString();

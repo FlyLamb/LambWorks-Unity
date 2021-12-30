@@ -63,6 +63,16 @@ namespace LambWorks.Networking.Server {
             }
         }
 
+        public static void PlayerMetadata(int playerId, string meta, object data, TransportType transport) {
+            using (Packet packet = new Packet((int)ServerPackets.playerMetadata)) {
+                packet.Write(playerId);
+                packet.Write(meta);
+                packet.WriteObject(data);
+
+                ServerSend.SendDataToAll(transport, packet);
+            }
+        }
+
         /// <summary>Sends an entity update to the client</summary>
         /// <param name="entity">The entity to send.</param>
         public static void UpdateEntity(Entity entity) {
