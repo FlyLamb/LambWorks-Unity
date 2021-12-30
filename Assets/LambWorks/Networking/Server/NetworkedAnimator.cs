@@ -16,7 +16,7 @@ namespace LambWorks.Networking.Server {
             fields = new Dictionary<string, NetworkedAnimatorField>();
         }
 
-        public void SetBool(string n, bool value, TransportType transportType = TransportType.udp) {
+        public void SetBool(string n, bool value, TransportType transportType = TransportType.dummy) {
             if (fields.ContainsKey(n)) {
                 if ((bool)fields[n].value != value) {
                     fields[n] = new NetworkedAnimatorField(1, value);
@@ -28,7 +28,7 @@ namespace LambWorks.Networking.Server {
             }
         }
 
-        public void SetFloat(string n, float value, TransportType transportType = TransportType.udp) {
+        public void SetFloat(string n, float value, TransportType transportType = TransportType.dummy) {
             if (fields.ContainsKey(n)) {
                 if ((float)fields[n].value != value) {
                     fields[n] = new NetworkedAnimatorField(0, value);
@@ -38,6 +38,10 @@ namespace LambWorks.Networking.Server {
                 fields.Add(n, new NetworkedAnimatorField(0, value));
                 _metadata.IOWriteMetadata("animator", fields, transportType);
             }
+        }
+
+        public void UpdateAnimator(TransportType transportType) {
+            _metadata.IOWriteMetadata("animator", fields, transportType);
         }
     }
 }
