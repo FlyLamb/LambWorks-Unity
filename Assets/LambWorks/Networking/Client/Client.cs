@@ -70,11 +70,11 @@ namespace LambWorks.Networking.Client {
                 try {
                     if (!ar.AsyncWaitHandle.WaitOne(TimeSpan.FromSeconds(2), false)) {
                         socket.Close(); //We have timed out!
-                        UnityEngine.SceneManagement.SceneManager.LoadScene(0); //this line is here so that we go back to the menu
                         return;
                     }
                 } finally {
                     wh.Close();
+                    NetInfo.mode = NetMode.client;
                 }
             }
 
@@ -177,6 +177,8 @@ namespace LambWorks.Networking.Client {
                 receivedData = null;
                 receiveBuffer = null;
                 socket = null;
+
+                NetInfo.mode = NetMode.off;
             }
         }
 

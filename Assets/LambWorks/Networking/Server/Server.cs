@@ -37,6 +37,8 @@ namespace LambWorks.Networking.Server {
             udpListener.BeginReceive(UDPReceiveCallback, null);
 
             Debug.Log($"Server started on port {Port}.");
+
+            NetInfo.mode = NetMode.server;
         }
 
         /// <summary>Handles new TCP connections.</summary>
@@ -124,6 +126,8 @@ namespace LambWorks.Networking.Server {
                 tcpListener.Stop();
             if (udpListener != null)
                 udpListener.Close();
+
+            NetInfo.mode = NetMode.off;
 
         }
 
