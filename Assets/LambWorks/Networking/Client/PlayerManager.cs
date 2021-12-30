@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace LambWorks.Networking.Client {
 
     [AddComponentMenu("LambWorks/Networking/Client/Player Manager")]
-    public class PlayerManager : MonoBehaviour {
+    public class PlayerManager : MonoBehaviour, IMetadataIO {
         public int id;
         public string username;
 
@@ -36,5 +36,9 @@ namespace LambWorks.Networking.Client {
             if (lerpSpeed != 0) transform.position = Vector3.Lerp(transform.position, targetPosition, Time.deltaTime * lerpSpeed);
             else transform.position = targetPosition;
         }
+
+        public void IOWriteMetadata(string meta, object data) => SetMetadata(meta, data);
+
+        public object IOReadMetadata(string meta) => GetMetadata(meta);
     }
 }

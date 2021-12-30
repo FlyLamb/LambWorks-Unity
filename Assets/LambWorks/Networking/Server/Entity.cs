@@ -6,7 +6,7 @@ namespace LambWorks.Networking.Server {
     /// The entity class is a gameObject synchronised between the client and server
     /// </summary>
     [AddComponentMenu("LambWorks/Networking/Server/Server-Side Entity")]
-    public class Entity : MonoBehaviour {
+    public class Entity : MonoBehaviour, IMetadataIO {
         [HideInInspector] public uint id = 0;
         public string model;
 
@@ -65,6 +65,10 @@ namespace LambWorks.Networking.Server {
                 return data;
             } else return null;
         }
+
+        public void IOWriteMetadata(string meta, object data) => SetMetadata(meta, data);
+
+        public object IOReadMetadata(string meta) => GetMetadata(meta);
 
     }
 }

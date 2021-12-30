@@ -5,7 +5,7 @@ namespace LambWorks.Networking.Server {
 
     [AddComponentMenu("LambWorks/Networking/Server/Player Manager")]
 
-    public class Player : MonoBehaviour {
+    public class Player : MonoBehaviour, IMetadataIO {
         public int id;
         public string username;
 
@@ -30,6 +30,10 @@ namespace LambWorks.Networking.Server {
                 return data;
             } else return null;
         }
+
+        public void IOWriteMetadata(string meta, object data) => SetMetadata(meta, data);
+
+        public object IOReadMetadata(string meta) => GetMetadata(meta);
 
     }
 }
