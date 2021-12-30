@@ -14,13 +14,12 @@ namespace LambWorks.Networking.Client {
 
         private void Awake() {
             _metadata = metadata as IMetadataIO;
-            _metadata.IOGotData = OnGotData;
+            _metadata.IOGotData += OnGotData;
         }
 
         private void OnGotData() {
-            print("got data");
-            fields = _metadata.IOReadMetadata("anim") as Dictionary<string, NetworkedAnimatorField>;
-
+            fields = _metadata.IOReadMetadata("animator") as Dictionary<string, NetworkedAnimatorField>;
+            if (fields == null) return;
             foreach (var kv in fields) {
                 switch (kv.Value.type) {
                     case 0:
