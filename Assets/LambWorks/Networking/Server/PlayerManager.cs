@@ -10,7 +10,7 @@ namespace LambWorks.Networking.Server {
         public int id;
         public string username;
 
-        private Dictionary<string, object> metadata;
+        public Dictionary<string, object> metadata;
 
         public void Initialize(int id) {
             this.id = id;
