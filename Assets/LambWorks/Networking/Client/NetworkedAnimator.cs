@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System;
 
 namespace LambWorks.Networking.Client {
+    [AddComponentMenu("LambWorks/Networking/Server/[S] Networked Animator")]
     public class NetworkedAnimator : MonoBehaviour {
-
+        [SerializeField]
         public Component metadata;
         private IMetadataIO _metadata;
 

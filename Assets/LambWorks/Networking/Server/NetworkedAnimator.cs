@@ -2,8 +2,9 @@ using UnityEngine;
 using System.Collections.Generic;
 
 namespace LambWorks.Networking.Server {
+    [AddComponentMenu("LambWorks/Networking/Server/[S] Networked Animator")]
     public class NetworkedAnimator : MonoBehaviour {
-
+        [SerializeField]
         public Component metadata;
         private IMetadataIO _metadata;
 
