@@ -13,6 +13,7 @@ namespace LambWorks.Networking.Server {
 
         private void Start() {
             _metadata = metadata as IMetadataIO;
+            fields = new Dictionary<string, NetworkedAnimatorField>();
         }
 
         public void SetBool(string n, bool value) {
