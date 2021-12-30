@@ -5,7 +5,7 @@ namespace LambWorks.Networking.Client {
     /// <summary>
     /// The entity class is a gameObject synchronised between the client and server
     /// </summary>
-    [AddComponentMenu("LambWorks/Networking/Client/Client-Side Entity")]
+    [AddComponentMenu("LambWorks/Networking/Client/[C] Client-Side Entity")]
     public class Entity : MonoBehaviour, IMetadataIO {
         [HideInInspector] public uint id;
         public string model;

@@ -2,7 +2,7 @@
 using UnityEngine;
 
 namespace LambWorks.Networking.Server {
-    [AddComponentMenu("LambWorks/Networking/Server/Network Manager")]
+    [AddComponentMenu("LambWorks/Networking/Server/[S] Network Manager")]
     public class NetworkManager : MonoBehaviour {
         public static NetworkManager instance;
 
@@ -30,8 +30,8 @@ namespace LambWorks.Networking.Server {
             Server.Stop();
         }
 
-        public Player InstantiatePlayer() {
-            return Instantiate(playerPrefab, new Vector3(0f, 0.5f, 0f), Quaternion.identity).GetComponent<Player>();
+        public PlayerManager InstantiatePlayer() {
+            return Instantiate(playerPrefab, new Vector3(0f, 0.5f, 0f), Quaternion.identity).GetComponent<PlayerManager>();
         }
 
         /// <summary>This is called when a player joins</summary>

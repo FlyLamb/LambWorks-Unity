@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace LambWorks.Networking.Client {
 
-    [AddComponentMenu("LambWorks/Networking/Client/Interpolated Entity")]
+    [AddComponentMenu("LambWorks/Networking/Client/[C] Interpolated Entity")]
     public class LerpedEntity : Entity {
 
         public float lerpSpeed = 5;

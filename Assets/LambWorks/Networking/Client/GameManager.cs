@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 namespace LambWorks.Networking.Client {
-    [AddComponentMenu("LambWorks/Networking/Client/Game Manager")]
+    [AddComponentMenu("LambWorks/Networking/Client/[C] Game Manager")]
     public class GameManager : MonoBehaviour {
         public static GameManager instance;
 
@@ -47,7 +47,7 @@ namespace LambWorks.Networking.Client {
         public Entity FindEntityByModelName(string model) {
             Entity last = null;
             foreach (var item in registeredEntities) {
-                if(item.model == model) {
+                if (item.model == model) {
                     last = item;
                     break;
                 }

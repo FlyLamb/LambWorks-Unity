@@ -2,7 +2,7 @@
 
 namespace LambWorks.Networking.Client {
 
-    [AddComponentMenu("LambWorks/Networking/Client/Standard Camera Controller")]
+    [AddComponentMenu("LambWorks/Networking/Client/[C] Standard Camera Controller")]
     public class CameraController : MonoBehaviour {
         public PlayerManager player;
         public float sensitivity = 100f;

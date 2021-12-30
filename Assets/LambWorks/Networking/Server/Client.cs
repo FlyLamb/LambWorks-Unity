@@ -9,7 +9,7 @@ namespace LambWorks.Networking.Server {
         public static int dataBufferSize = 4096;
 
         public int id;
-        public Player player;
+        public PlayerManager player;
         public TCP tcp;
         public UDP udp;
 

@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace LambWorks.Networking.Server {
 
-    [AddComponentMenu("LambWorks/Networking/Server/Player Controller")]
+    [AddComponentMenu("LambWorks/Networking/Server/[S] Player Controller")]
 
     public class PlayerController : MonoBehaviour {
         public CharacterController controller;
@@ -60,8 +60,8 @@ namespace LambWorks.Networking.Server {
             moveDirection.y = yVelocity;
             controller.Move(moveDirection);
 
-            SendMethods.PlayerPosition(this.GetComponent<Player>());
-            SendMethods.PlayerRotation(this.GetComponent<Player>());
+            SendMethods.PlayerPosition(this.GetComponent<PlayerManager>());
+            SendMethods.PlayerRotation(this.GetComponent<PlayerManager>());
         }
 
         /// <summary>Updates the player input with newly received input.</summary>

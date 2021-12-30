@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace LambWorks.Networking.Client {
-    [AddComponentMenu("LambWorks/Networking/Client/Client")]
+    [AddComponentMenu("LambWorks/Networking/Client/[C] Client")]
     public partial class Client : MonoBehaviour {
         public static Client instance;
         public static int dataBufferSize = 4096;

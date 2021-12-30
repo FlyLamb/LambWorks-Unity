@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace LambWorks.Networking.Client {
 
-    [AddComponentMenu("LambWorks/Networking/Client/Player Manager")]
+    [AddComponentMenu("LambWorks/Networking/Client/[C] Player Manager")]
     public class PlayerManager : MonoBehaviour, IMetadataIO {
         public int id;
         public string username;

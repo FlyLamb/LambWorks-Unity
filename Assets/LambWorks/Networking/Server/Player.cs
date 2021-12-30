@@ -3,9 +3,9 @@ using UnityEngine;
 
 namespace LambWorks.Networking.Server {
 
-    [AddComponentMenu("LambWorks/Networking/Server/Player Manager")]
+    [AddComponentMenu("LambWorks/Networking/Server/[S] Player Manager")]
 
-    public class Player : MonoBehaviour, IMetadataIO {
+    public class PlayerManager : MonoBehaviour, IMetadataIO {
         public int id;
         public string username;
 
