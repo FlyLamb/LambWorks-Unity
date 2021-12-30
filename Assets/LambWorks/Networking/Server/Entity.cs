@@ -25,7 +25,8 @@ namespace LambWorks.Networking.Server {
         public Transform origin;
 
         private void Awake() {
-            origin = transform;
+            if (origin == null)
+                origin = transform;
         }
 
         protected virtual void Start() {
