@@ -46,6 +46,9 @@ namespace LambWorks.Networking.Client {
 
             isConnected = true;
             tcp.Connect(); // Connect tcp, udp gets connected once tcp is done
+
+            NetInfo.mode = NetMode.client;
+            NetInfo.Reset();
         }
 
         public class TCP {
@@ -74,7 +77,7 @@ namespace LambWorks.Networking.Client {
                     }
                 } finally {
                     wh.Close();
-                    NetInfo.mode = NetMode.client;
+
                 }
             }
 
@@ -144,6 +147,7 @@ namespace LambWorks.Networking.Client {
                 while (packetLength > 0 && packetLength <= receivedData.UnreadLength()) {
                     // While packet contains data AND packet data length doesn't exceed the length of the packet we're reading
                     byte[] packetBytes = receivedData.ReadBytes(packetLength);
+                    NetInfo.downloadedTcp += packetBytes.Length;
                     ThreadManager.ExecuteOnMainThread(() => {
                         using (Packet packet = new Packet(packetBytes)) {
                             int packetId = packet.ReadInt();
@@ -238,6 +242,7 @@ namespace LambWorks.Networking.Client {
             private void HandleData(byte[] data) {
                 using (Packet packet = new Packet(data)) {
                     int packetLength = packet.ReadInt();
+                    NetInfo.downloadedUdp += packetLength;
                     data = packet.ReadBytes(packetLength);
                 }
 

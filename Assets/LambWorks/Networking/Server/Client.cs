@@ -99,6 +99,7 @@ namespace LambWorks.Networking.Server {
                 while (packetLength > 0 && packetLength <= receivedData.UnreadLength()) {
                     // While packet contains data AND packet data length doesn't exceed the length of the packet we're reading
                     byte[] packetBytes = receivedData.ReadBytes(packetLength);
+                    NetInfo.downloadedTcp += packetBytes.Length;
                     ThreadManager.ExecuteOnMainThread(() => {
                         using (Packet packet = new Packet(packetBytes)) {
                             int packetId = packet.ReadInt();
@@ -160,6 +161,8 @@ namespace LambWorks.Networking.Server {
             public void HandleData(Packet packetData) {
                 int packetLength = packetData.ReadInt();
                 byte[] packetBytes = packetData.ReadBytes(packetLength);
+
+                NetInfo.downloadedUdp += packetLength;
 
                 ThreadManager.ExecuteOnMainThread(() => {
                     using (Packet packet = new Packet(packetBytes)) {

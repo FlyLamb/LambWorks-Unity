@@ -6,6 +6,7 @@
         /// <param name="packet">The packet to send to the client.</param>
         public static void SendTCPData(int toClient, Packet packet) {
             packet.WriteLength();
+            NetInfo.uploadedTcp += packet.Length();
             Server.clients[toClient].tcp.SendData(packet);
         }
 
@@ -14,6 +15,7 @@
         /// <param name="packet">The packet to send to the client.</param>
         public static void SendUDPData(int toClient, Packet packet) {
             packet.WriteLength();
+            NetInfo.uploadedUdp += packet.Length();
             Server.clients[toClient].udp.SendData(packet);
         }
 
@@ -22,6 +24,7 @@
         public static void SendTCPDataToAll(Packet packet) {
             packet.WriteLength();
             for (int i = 1; i <= Server.MaxPlayers; i++) {
+                NetInfo.uploadedTcp += packet.Length();
                 Server.clients[i].tcp.SendData(packet);
             }
         }
@@ -32,6 +35,7 @@
             packet.WriteLength();
             for (int i = 1; i <= Server.MaxPlayers; i++) {
                 if (i != exceptClient) {
+                    NetInfo.uploadedTcp += packet.Length();
                     Server.clients[i].tcp.SendData(packet);
                 }
             }
@@ -42,6 +46,7 @@
         public static void SendUDPDataToAll(Packet packet) {
             packet.WriteLength();
             for (int i = 1; i <= Server.MaxPlayers; i++) {
+                NetInfo.uploadedUdp += packet.Length();
                 Server.clients[i].udp.SendData(packet);
             }
         }
@@ -52,6 +57,7 @@
             packet.WriteLength();
             for (int i = 1; i <= Server.MaxPlayers; i++) {
                 if (i != exceptClient) {
+                    NetInfo.uploadedUdp += packet.Length();
                     Server.clients[i].udp.SendData(packet);
                 }
             }

@@ -7,6 +7,7 @@ namespace LambWorks.Networking.Client {
         public static void SendTCPData(Packet packet) {
             packet.WriteLength();
             Client.instance.tcp.SendData(packet);
+            NetInfo.uploadedTcp += packet.Length();
         }
 
         /// <summary>Sends a packet to the server via UDP.</summary>
@@ -14,6 +15,7 @@ namespace LambWorks.Networking.Client {
         public static void SendUDPData(Packet packet) {
             packet.WriteLength();
             Client.instance.udp.SendData(packet);
+            NetInfo.uploadedUdp += packet.Length();
         }
 
     }

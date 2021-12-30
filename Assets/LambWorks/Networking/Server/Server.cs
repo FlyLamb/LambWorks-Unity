@@ -39,6 +39,7 @@ namespace LambWorks.Networking.Server {
             Debug.Log($"Server started on port {Port}.");
 
             NetInfo.mode = NetMode.server;
+            NetInfo.Reset();
         }
 
         /// <summary>Handles new TCP connections.</summary>
