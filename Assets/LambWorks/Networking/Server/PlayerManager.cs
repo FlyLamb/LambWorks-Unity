@@ -21,7 +21,7 @@ namespace LambWorks.Networking.Server {
             if (!metadata.ContainsKey(meta)) {
                 metadata.Add(meta, data);
                 SendMethods.PlayerMetadata(id, meta, data, send);
-            } else if (metadata[meta] != data) {
+            } else {
                 metadata[meta] = data;
                 SendMethods.PlayerMetadata(id, meta, data, send);
             }
