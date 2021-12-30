@@ -4,18 +4,21 @@ using System;
 
 namespace LambWorks.Networking.Client {
     public class NetworkedAnimator : MonoBehaviour {
-        public IMetadataIO metadata;
+
+        public Component metadata;
+        private IMetadataIO _metadata;
 
         private Dictionary<string, NetworkedAnimatorField> fields;
         public Animator animator;
 
         private void Start() {
-            metadata.IOGotData += OnGotData;
+            _metadata = metadata as IMetadataIO;
+            _metadata.IOGotData += OnGotData;
         }
 
         private void OnGotData() {
             print("got data");
-            fields = metadata.IOReadMetadata("anim") as Dictionary<string, NetworkedAnimatorField>;
+            fields = _metadata.IOReadMetadata("anim") as Dictionary<string, NetworkedAnimatorField>;
 
             foreach (var kv in fields) {
                 switch (kv.Value.type) {
