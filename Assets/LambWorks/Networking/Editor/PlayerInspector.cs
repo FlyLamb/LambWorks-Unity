@@ -1,7 +1,7 @@
 using UnityEditor;
-using UnityEditor.UIElements;
-using UnityEngine.UIElements;
+using System.Collections.Generic;
 using UnityEngine;
+using System.Reflection;
 
 [CustomEditor(typeof(LambWorks.Networking.Client.PlayerManager))]
 public class PlayerInspector : Editor {
@@ -14,8 +14,11 @@ public class PlayerInspector : Editor {
             return;
         }
 
-        foreach (var w in md) {
-            GUILayout.Label($"{w.Key} : {w.Key}");
-        }
+        var t = EditorJsonUtility.ToJson(md, true);
+
+        GUILayout.Label(t);
+
     }
+
+
 }
