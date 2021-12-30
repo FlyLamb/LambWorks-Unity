@@ -9,7 +9,7 @@ namespace LambWorks.Networking.Client {
         public int id;
         public string username;
 
-        protected Dictionary<string, object> metadata;
+        public Dictionary<string, object> metadata;
 
         public float lerpSpeed = 0;
 
