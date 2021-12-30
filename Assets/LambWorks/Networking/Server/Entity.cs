@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -69,6 +70,8 @@ namespace LambWorks.Networking.Server {
         public void IOWriteMetadata(string meta, object data) => SetMetadata(meta, data);
 
         public object IOReadMetadata(string meta) => GetMetadata(meta);
+
+        public Action IOGotData { get; set; }
 
     }
 }

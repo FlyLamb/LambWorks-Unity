@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -34,10 +35,12 @@ namespace LambWorks.Networking.Client {
             transform.localScale = scale;
         }
 
-        public virtual void SetMetadata(string meta, object data) {
+        public virtual void SetMetadata(string meta, object data, bool invokeEvent = true) {
             if (metadata.ContainsKey(meta)) {
                 metadata[meta] = data;
             } else metadata.Add(meta, data);
+
+            if (invokeEvent) IOGotData.Invoke();
         }
 
         public virtual object GetMetadata(string meta) {
@@ -49,5 +52,7 @@ namespace LambWorks.Networking.Client {
         public void IOWriteMetadata(string meta, object data) => SetMetadata(meta, data);
 
         public object IOReadMetadata(string meta) => GetMetadata(meta);
+
+        public Action IOGotData { get; set; }
     }
 }

@@ -66,7 +66,7 @@ namespace LambWorks.Networking.Client {
             string meta = packet.ReadString();
             object obj = packet.ReadObject();
 
-            GameManager.players[id].SetMetadata(meta, obj);
+            GameManager.players[id].SetMetadata(meta, obj, true);
         }
 
         [ClientHandler((int)ServerPackets.entitySpawn)]
