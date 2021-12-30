@@ -1,3 +1,4 @@
+[System.Serializable]
 public struct NetworkedAnimatorField {
     public byte type; // 0 - float; 1 - bool;
     public object value;
