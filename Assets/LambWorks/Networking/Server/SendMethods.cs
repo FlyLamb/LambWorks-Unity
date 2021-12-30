@@ -78,9 +78,9 @@ namespace LambWorks.Networking.Server {
         public static void UpdateEntity(Entity entity) {
             using (Packet packet = new Packet((int)ServerPackets.entityUpdate)) {
                 packet.Write(entity.id);
-                packet.Write(entity.transform.position);
-                packet.Write(entity.transform.rotation);
-                packet.Write(entity.transform.localScale);
+                packet.Write(entity.origin.position);
+                packet.Write(entity.origin.rotation);
+                packet.Write(entity.origin.localScale);
 
                 ServerSend.SendUDPDataToAll(packet);
             }

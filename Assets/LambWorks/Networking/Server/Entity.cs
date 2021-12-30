@@ -21,6 +21,13 @@ namespace LambWorks.Networking.Server {
 
         private Dictionary<string, object> metadata;
 
+        [Tooltip("The transform to use instead of the current gameObject's")]
+        public Transform origin;
+
+        private void Awake() {
+            origin = transform;
+        }
+
         protected virtual void Start() {
             NetworkManager.instance.RegisterEntity(this);
             metadata = new Dictionary<string, object>();
@@ -31,8 +38,8 @@ namespace LambWorks.Networking.Server {
         }
 
         protected virtual void FixedUpdate() {
-            if (Quaternion.Angle(transform.rotation, lastRotation) >= roationThreshold ||
-            CoordinateDistance(transform.position - lastPosition, movementThreshold))
+            if (Quaternion.Angle(origin.rotation, lastRotation) >= roationThreshold ||
+            CoordinateDistance(origin.position - lastPosition, movementThreshold))
                 Send();
         }
 
