@@ -23,6 +23,7 @@ namespace LambWorks.Networking.Server {
 
         protected virtual void Start() {
             NetworkManager.instance.RegisterEntity(this);
+            metadata = new Dictionary<string, object>();
         }
 
         private bool CoordinateDistance(Vector3 w, float t) {

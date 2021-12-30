@@ -14,6 +14,7 @@ namespace LambWorks.Networking.Server {
 
         public void Initialize(int id) {
             this.id = id;
+            metadata = new Dictionary<string, object>();
         }
 
         public void SetMetadata(string meta, object data, TransportType send = TransportType.dummy) {

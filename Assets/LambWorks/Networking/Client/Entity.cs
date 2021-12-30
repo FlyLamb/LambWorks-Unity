@@ -26,6 +26,8 @@ namespace LambWorks.Networking.Client {
             transform.position = position;
             transform.rotation = rotation;
             transform.localScale = scale;
+            metadata = new Dictionary<string, object>();
+
         }
 
         /// <summary>Updates the entity data</summary>

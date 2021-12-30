@@ -19,6 +19,7 @@ namespace LambWorks.Networking.Client {
         public void Initialize(int id, string username) {
             this.id = id;
             this.username = username;
+            metadata = new Dictionary<string, object>();
         }
 
         public void SetMetadata(string meta, object data, bool invokeEvent = false) {
