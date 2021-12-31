@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using LambWorks.Networking.Types;
 using UnityEngine;
 
 namespace LambWorks.Networking.Server {
@@ -10,11 +11,11 @@ namespace LambWorks.Networking.Server {
         public byte id;
         public string username;
 
-        public NetDictionaryString<object> metadata;
+        public NetDictionaryString metadata;
 
         public void Initialize(byte id) {
             this.id = id;
-            metadata = new NetDictionaryString<object>();
+            metadata = new NetDictionaryString();
         }
 
         public void SetMetadata(string meta, object data, TransportType send = TransportType.dummy) {

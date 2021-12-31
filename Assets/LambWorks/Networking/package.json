@@ -1,6 +1,6 @@
 {
     "name": "xyz.bajtix.lw-networking",
-    "version": "1.0.7",
+    "version": "1.0.8",
     "description": "LambWorks multiplayer framework",
     "displayName": "LambWorks Networking",
     "unity": "2021.1",

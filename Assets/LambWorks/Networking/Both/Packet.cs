@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
+using Lambworks.Networking.Types;
 using UnityEngine;
 
 // Written by Tom Weiland; Unmodified.
@@ -162,8 +163,8 @@ namespace LambWorks.Networking {
             int length;
 
             if (_value is INetSerializable) { // proper serialization of sent object
-                //name = (_value.GetType().GetCustomAttributes(typeof(NetSerializeAsAttribute), false)[0] as NetSerializeAsAttribute).serializeAs; // TODO: replace with dictionary entry from NetSerializers
-                name = NetSerializers.serializers[_value.GetType()];
+                name = (_value.GetType().GetCustomAttributes(typeof(NetSerializeAsAttribute), false)[0] as NetSerializeAsAttribute).serializeAs; // TODO: replace with dictionary entry from NetSerializers
+                //name = NetSerializers.serializers[_value.GetType()];
                 bytes = (_value as INetSerializable).Serialize(new Packet()).ToArray();
                 length = bytes.Length;
             } else { // Anonymous objects using auto-serialization
@@ -182,6 +183,44 @@ namespace LambWorks.Networking {
 
 
         }
+
+        /// <summary>Adds any PRIMITVE to the packet.</summary>
+        /// <param name="_value">The primitve to add</param>
+        public void WritePrimitive(object _value) {
+            switch (_value) {
+                case long integer64:
+                    Write((byte)Primitives.integer64);
+                    Write(integer64);
+                    break;
+                case int integer32:
+                    Write((byte)Primitives.integer32);
+                    Write(integer32);
+                    break;
+                case short integer16:
+                    Write((byte)Primitives.integer16);
+                    Write(integer16);
+                    break;
+                case byte integer8:
+                    Write((byte)Primitives.integer8);
+                    Write(integer8);
+                    break;
+                case bool boolean:
+                    Write((byte)Primitives.boolean);
+                    Write(boolean);
+                    break;
+                case float floating32:
+                    Write((byte)Primitives.floating32);
+                    Write(floating32);
+                    break;
+                case string text:
+                    Write((byte)Primitives.text);
+                    Write(text);
+                    break;
+
+            }
+        }
+
+
         #endregion
 
         #region Read Data
@@ -372,6 +411,30 @@ namespace LambWorks.Networking {
 
 
         }
+
+
+        /// <summary>Adds any PRIMITVE to the packet.</summary>
+        /// <param name="_value">The primitve to add</param>
+        public object ReadPrimitive(bool _moveReadPos = true) {
+            byte val = ReadByte(_moveReadPos);
+            switch (val) {
+                case (byte)Primitives.integer64:
+                    return ReadLong(_moveReadPos);
+                case (byte)Primitives.integer32:
+                    return ReadInt(_moveReadPos);
+                case (byte)Primitives.integer16:
+                    return ReadShort(_moveReadPos);
+                case (byte)Primitives.integer8:
+                    return ReadByte(_moveReadPos);
+                case (byte)Primitives.boolean:
+                    return ReadBool(_moveReadPos);
+                case (byte)Primitives.floating32:
+                    return ReadFloat(_moveReadPos);
+            }
+
+            return null;
+        }
+
         #endregion
 
         private bool disposed = false;

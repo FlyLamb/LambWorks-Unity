@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using LambWorks.Networking.Types;
 using System;
 
 namespace LambWorks.Networking.Client {
@@ -9,7 +10,7 @@ namespace LambWorks.Networking.Client {
         public int id;
         public string username;
 
-        public NetDictionaryString<object> metadata;
+        public NetDictionaryString metadata;
 
         public float lerpSpeed = 0;
 
@@ -19,7 +20,7 @@ namespace LambWorks.Networking.Client {
         public void Initialize(int id, string username) {
             this.id = id;
             this.username = username;
-            metadata = new NetDictionaryString<object>();
+            metadata = new NetDictionaryString();
         }
 
         public void SetMetadata(string meta, object data, bool invokeEvent = false) {

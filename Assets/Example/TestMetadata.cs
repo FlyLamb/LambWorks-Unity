@@ -9,11 +9,15 @@ public class TestMetadata : MonoBehaviour {
 
     public TestSerializable ts;
 
+    public NetworkedAnimator animator;
+
     private void Start() {
         ts = new TestSerializable();
     }
 
     private void FixedUpdate() {
-        player.SetMetadata("ts", ts, TransportType.udp);
+        //player.SetMetadata("ts", ts, TransportType.udp);
+        animator.SetFloat("Time", Time.time);
+        animator.UpdateAnimator(TransportType.udp);
     }
 }
