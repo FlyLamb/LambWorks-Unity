@@ -8,7 +8,7 @@ namespace LambWorks.Networking.Server {
     /// </summary>
     [AddComponentMenu("LambWorks/Networking/Server/[S] Server-Side Entity")]
     public class Entity : MonoBehaviour, IMetadataIO {
-        [HideInInspector] public uint id = 0;
+        [HideInInspector] public int id = 0;
         public string model;
 
         [Tooltip("The minimal change in coordinates required for the entity to get updated")]
@@ -39,9 +39,16 @@ namespace LambWorks.Networking.Server {
         }
 
         protected virtual void FixedUpdate() {
+            SendIfMoved();
+        }
+
+        protected void SendIfMoved() {
             if (Quaternion.Angle(origin.rotation, lastRotation) >= roationThreshold ||
-            CoordinateDistance(origin.position - lastPosition, movementThreshold))
+            CoordinateDistance(origin.position - lastPosition, movementThreshold)) {
                 Send();
+                lastPosition = origin.position;
+                lastRotation = origin.rotation;
+            }
         }
 
         protected virtual void OnDestroy() {

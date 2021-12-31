@@ -16,7 +16,7 @@ namespace LambWorks.Networking.Client {
         public string ip = "127.0.0.1";
         public int port = 26950;
         public int timeout = 3;
-        public int myId = 0;
+        public byte myId = 0;
         public TCP tcp;
         public UDP udp;
 
@@ -271,6 +271,8 @@ namespace LambWorks.Networking.Client {
 
         /// <summary>Registers user created handlers</summary>
         private static void RegisterHandlers() {
+            NetSerializers.FindSerializers();
+
             packetHandlers = new Dictionary<int, PacketHandler>();
             RegisterFromAssembly(Assembly.GetAssembly(typeof(Client)));
             var assemblies = AppDomain.CurrentDomain.GetAssemblies().Where(w => Regex.Matches(w.FullName, "System|Unity|mscore|Mono|Lamb").Count == 0);
@@ -304,7 +306,7 @@ namespace LambWorks.Networking.Client {
                 GameManager.players = new Dictionary<int, PlayerManager>();
                 foreach (Entity e in GameManager.entities.Values) Destroy(e.gameObject);
 
-                GameManager.entities = new Dictionary<uint, Entity>();
+                GameManager.entities = new Dictionary<int, Entity>();
                 tcp.socket.Close();
                 if (udp.socket != null)
                     udp.socket.Close();

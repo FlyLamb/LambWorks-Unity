@@ -9,7 +9,7 @@ namespace LambWorks.Networking.Client {
         public int id;
         public string username;
 
-        public Dictionary<string, object> metadata;
+        public NetDictionaryString<object> metadata;
 
         public float lerpSpeed = 0;
 
@@ -19,7 +19,7 @@ namespace LambWorks.Networking.Client {
         public void Initialize(int id, string username) {
             this.id = id;
             this.username = username;
-            metadata = new Dictionary<string, object>();
+            metadata = new NetDictionaryString<object>();
         }
 
         public void SetMetadata(string meta, object data, bool invokeEvent = false) {

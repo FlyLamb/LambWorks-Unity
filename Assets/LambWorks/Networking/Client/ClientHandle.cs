@@ -7,7 +7,7 @@ namespace LambWorks.Networking.Client {
         [ClientHandler((int)ServerPackets.welcome)]
         public static void Welcome(Packet packet) {
             string msg = packet.ReadString();
-            int myId = packet.ReadInt();
+            byte myId = packet.ReadByte();
 
             Debug.Log($"Message from server: {msg}");
             Client.instance.myId = myId;
@@ -19,7 +19,7 @@ namespace LambWorks.Networking.Client {
 
         [ClientHandler((int)ServerPackets.spawnPlayer)]
         public static void SpawnPlayer(Packet packet) {
-            int id = packet.ReadInt();
+            byte id = packet.ReadByte();
             string username = packet.ReadString();
             Vector3 position = packet.ReadVector3();
             Quaternion rotation = packet.ReadQuaternion();
@@ -29,7 +29,7 @@ namespace LambWorks.Networking.Client {
 
         [ClientHandler((int)ServerPackets.playerPosition)]
         public static void PlayerPosition(Packet packet) {
-            int id = packet.ReadInt();
+            byte id = packet.ReadByte();
             Vector3 position = packet.ReadVector3();
 
             if (GameManager.players.TryGetValue(id, out PlayerManager player)) {
@@ -39,7 +39,7 @@ namespace LambWorks.Networking.Client {
 
         [ClientHandler((int)ServerPackets.playerRotation)]
         public static void PlayerRotation(Packet packet) {
-            int id = packet.ReadInt();
+            byte id = packet.ReadByte();
             Quaternion rotation = packet.ReadQuaternion();
 
             if (GameManager.players.TryGetValue(id, out PlayerManager player)) {
@@ -49,7 +49,7 @@ namespace LambWorks.Networking.Client {
 
         [ClientHandler((int)ServerPackets.playerDisconnected)]
         public static void PlayerDisconnected(Packet packet) {
-            int id = packet.ReadInt();
+            byte id = packet.ReadByte();
             if (id == Client.instance.myId) {
                 Client.instance.Disconnect();
                 UnityEngine.SceneManagement.SceneManager.LoadScene(0); // if we were disconnected, go back to the menu.
@@ -62,7 +62,7 @@ namespace LambWorks.Networking.Client {
 
         [ClientHandler((int)ServerPackets.playerMetadata)]
         public static void PlayerMetadata(Packet packet) {
-            int id = packet.ReadInt();
+            byte id = packet.ReadByte();
             string meta = packet.ReadString();
             object obj = packet.ReadObject();
 
@@ -72,7 +72,7 @@ namespace LambWorks.Networking.Client {
         [ClientHandler((int)ServerPackets.entitySpawn)]
         public static void SpawnEntity(Packet packet) {
             string model = packet.ReadString();
-            uint id = (uint)packet.ReadLong();
+            int id = packet.ReadInt();
             Vector3 position = packet.ReadVector3();
             Quaternion rotation = packet.ReadQuaternion();
             Vector3 scale = packet.ReadVector3();
@@ -82,7 +82,7 @@ namespace LambWorks.Networking.Client {
 
         [ClientHandler((int)ServerPackets.entityUpdate)]
         public static void UpdateEntity(Packet packet) {
-            uint id = (uint)packet.ReadLong();
+            int id = packet.ReadInt();
             Vector3 position = packet.ReadVector3();
             Quaternion rotation = packet.ReadQuaternion();
             Vector3 scale = packet.ReadVector3();
@@ -92,13 +92,13 @@ namespace LambWorks.Networking.Client {
 
         [ClientHandler((int)ServerPackets.entityDestroy)]
         public static void DestroyEntity(Packet packet) {
-            uint id = (uint)packet.ReadLong();
+            int id = packet.ReadInt();
             GameManager.instance.KillEntity(id);
         }
 
         [ClientHandler((int)ServerPackets.entityMessage)]
         public static void MessageEntity(Packet packet) {
-            uint id = (uint)packet.ReadLong();
+            int id = packet.ReadInt();
             string msg = packet.ReadString();
             object obj = packet.ReadObject();
 
@@ -107,7 +107,7 @@ namespace LambWorks.Networking.Client {
 
         [ClientHandler((int)ServerPackets.entityMetadata)]
         public static void MetadataEntity(Packet packet) {
-            uint id = (uint)packet.ReadLong();
+            int id = packet.ReadInt();
             string meta = packet.ReadString();
             object data = packet.ReadObject();
 

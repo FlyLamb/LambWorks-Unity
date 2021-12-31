@@ -8,7 +8,7 @@ namespace LambWorks.Networking.Client {
     /// </summary>
     [AddComponentMenu("LambWorks/Networking/Client/[C] Client-Side Entity")]
     public class Entity : MonoBehaviour, IMetadataIO {
-        [HideInInspector] public uint id;
+        [HideInInspector] public int id;
         public string model;
         public Dictionary<string, object> metadata;
 
@@ -21,7 +21,7 @@ namespace LambWorks.Networking.Client {
         }
 
         /// <summary>This function initializes the entity with provided data</summary>
-        public virtual void Initialize(uint id, Vector3 position, Quaternion rotation, Vector3 scale) {
+        public virtual void Initialize(int id, Vector3 position, Quaternion rotation, Vector3 scale) {
             this.id = id;
             transform.position = position;
             transform.rotation = rotation;

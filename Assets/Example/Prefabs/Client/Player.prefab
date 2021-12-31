@@ -143,3 +143,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 0
   username: 
+  lerpSpeed: 30
+  targetPosition: {x: 0, y: 0, z: 0}

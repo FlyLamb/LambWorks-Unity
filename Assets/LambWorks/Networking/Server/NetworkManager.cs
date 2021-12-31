@@ -8,7 +8,8 @@ namespace LambWorks.Networking.Server {
 
         public GameObject playerPrefab;
 
-        public int maxPlayers = 5, port = 26950;
+        public byte maxPlayers = 5;
+        public int port = 26950;
 
         private void Awake() {
             if (instance == null) {
@@ -44,9 +45,9 @@ namespace LambWorks.Networking.Server {
         /// <summary>Needs to be called by the entity in order to be registered</summary>
         /// <param name="e">The entity to register</param>
         public void RegisterEntity(Entity e) {
-            List<uint> keys = new List<uint>(Server.entities.Keys);
+            List<int> keys = new List<int>(Server.entities.Keys);
             //Get first free ID
-            uint i;
+            int i;
             for (i = 0; i < keys.Count + 1; i++) {
                 if (!keys.Contains(i))
                     break;

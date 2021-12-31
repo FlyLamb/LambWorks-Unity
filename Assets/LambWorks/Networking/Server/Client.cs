@@ -8,12 +8,12 @@ namespace LambWorks.Networking.Server {
     public class Client {
         public static int dataBufferSize = 4096;
 
-        public int id;
+        public byte id;
         public PlayerManager player;
         public TCP tcp;
         public UDP udp;
 
-        public Client(int clientId) {
+        public Client(byte clientId) {
             id = clientId;
             tcp = new TCP(id);
             udp = new UDP(id);

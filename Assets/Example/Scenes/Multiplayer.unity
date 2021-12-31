@@ -432,6 +432,7 @@ GameObject:
   - component: {fileID: 1902706400}
   - component: {fileID: 1902706399}
   - component: {fileID: 1902706398}
+  - component: {fileID: 1902706401}
   m_Layer: 0
   m_Name: NetworkManager
   m_TagString: Untagged
@@ -464,7 +465,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerPrefab: {fileID: 4187005777591049097, guid: 28356974c7337f046a4d87eaf2777d62, type: 3}
-  maxPlayers: 5
+  maxPlayers: 1
   port: 26950
 --- !u!4 &1902706400
 Transform:
@@ -480,3 +481,15 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1902706401
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1902706397}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40f9d1e9f7dfd0faeb5282bbeddfcdfa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

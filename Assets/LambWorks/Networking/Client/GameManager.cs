@@ -7,7 +7,7 @@ namespace LambWorks.Networking.Client {
         public static GameManager instance;
 
         public static Dictionary<int, PlayerManager> players = new Dictionary<int, PlayerManager>();
-        public static Dictionary<uint, Entity> entities = new Dictionary<uint, Entity>();
+        public static Dictionary<int, Entity> entities = new Dictionary<int, Entity>();
 
         public GameObject localPlayerPrefab;
         public GameObject playerPrefab;
@@ -29,7 +29,7 @@ namespace LambWorks.Networking.Client {
         /// <param name="name">The player's name.</param>
         /// <param name="position">The player's starting position.</param>
         /// <param name="rotation">The player's starting rotation.</param>
-        public void SpawnPlayer(int id, string username, Vector3 position, Quaternion rotation) {
+        public void SpawnPlayer(byte id, string username, Vector3 position, Quaternion rotation) {
             GameObject player;
             if (id == Client.instance.myId) {
                 player = Instantiate(localPlayerPrefab, position, rotation);
@@ -56,14 +56,14 @@ namespace LambWorks.Networking.Client {
         }
 
         /// <summary>Instantiates the entity and assigns the correct parameters</summary>
-        public void SpawnEntity(string model, uint id, Vector3 position, Quaternion rotation, Vector3 scale) {
+        public void SpawnEntity(string model, int id, Vector3 position, Quaternion rotation, Vector3 scale) {
             Entity e = Instantiate(FindEntityByModelName(model).gameObject).GetComponent<Entity>();
             e.Initialize(id, position, rotation, scale);
             entities.Add(id, e);
         }
 
         /// <summary>Kills the entity with the provided ID</summary>
-        public void KillEntity(uint id) {
+        public void KillEntity(int id) {
             Destroy(entities[id].gameObject);
             entities.Remove(id);
         }

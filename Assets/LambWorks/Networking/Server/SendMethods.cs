@@ -22,7 +22,7 @@ namespace LambWorks.Networking.Server {
         public static void SpawnPlayer(int toClient, PlayerManager player) {
             NetworkManager.instance.OnPlayerJoin(player.id);
             using (Packet packet = new Packet((int)ServerPackets.spawnPlayer)) {
-                packet.Write(player.id);
+                packet.Write((short)player.id);
                 packet.Write(player.username);
                 packet.Write(player.transform.position);
                 packet.Write(player.transform.rotation);
@@ -55,7 +55,7 @@ namespace LambWorks.Networking.Server {
 
         /// <summary>Sends a player disconnected, so that the player is removed in the Clients.</summary>
         /// <param name="playerId">The player which disconnected</param>
-        public static void PlayerDisconnected(int playerId) {
+        public static void PlayerDisconnected(byte playerId) {
             using (Packet packet = new Packet((int)ServerPackets.playerDisconnected)) {
                 packet.Write(playerId);
 
@@ -63,7 +63,7 @@ namespace LambWorks.Networking.Server {
             }
         }
 
-        public static void PlayerMetadata(int playerId, string meta, object data, TransportType transport) {
+        public static void PlayerMetadata(byte playerId, string meta, object data, TransportType transport) {
             using (Packet packet = new Packet((int)ServerPackets.playerMetadata)) {
                 packet.Write(playerId);
                 packet.Write(meta);

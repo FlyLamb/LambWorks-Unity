@@ -46,7 +46,6 @@
         public static void SendUDPDataToAll(Packet packet) {
             packet.WriteLength();
             for (int i = 1; i <= Server.MaxPlayers; i++) {
-                NetInfo.uploadedUdp += packet.Length();
                 Server.clients[i].udp.SendData(packet);
             }
         }
@@ -57,7 +56,7 @@
             packet.WriteLength();
             for (int i = 1; i <= Server.MaxPlayers; i++) {
                 if (i != exceptClient) {
-                    NetInfo.uploadedUdp += packet.Length();
+                    // udp data stats are in this function (Client.udp.senddata)
                     Server.clients[i].udp.SendData(packet);
                 }
             }

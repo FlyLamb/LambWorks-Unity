@@ -7,14 +7,14 @@ namespace LambWorks.Networking.Server {
     [AddComponentMenu("LambWorks/Networking/Server/[S] Player Manager")]
 
     public class PlayerManager : MonoBehaviour, IMetadataIO {
-        public int id;
+        public byte id;
         public string username;
 
-        public Dictionary<string, object> metadata;
+        public NetDictionaryString<object> metadata;
 
-        public void Initialize(int id) {
+        public void Initialize(byte id) {
             this.id = id;
-            metadata = new Dictionary<string, object>();
+            metadata = new NetDictionaryString<object>();
         }
 
         public void SetMetadata(string meta, object data, TransportType send = TransportType.dummy) {

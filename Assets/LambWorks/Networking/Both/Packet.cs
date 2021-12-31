@@ -127,6 +127,14 @@ namespace LambWorks.Networking {
             Write(_value.Length); // Add the length of the string to the packet
             buffer.AddRange(Encoding.ASCII.GetBytes(_value)); // Add the string itself
         }
+
+        /// <summary>Adds a short (255) string to the packet.</summary>
+        /// <param name="_value">The string to add.</param>
+        public void WriteShortString(string _value) {
+            Write((byte)_value.Length); // Add the length of the string to the packet
+            buffer.AddRange(Encoding.ASCII.GetBytes(_value)); // Add the string itself
+        }
+
         /// <summary>Adds a Vector3 to the packet.</summary>
         /// <param name="_value">The Vector3 to add.</param>
         public void Write(Vector3 _value) {
@@ -146,14 +154,33 @@ namespace LambWorks.Networking {
         /// <param name="_value">The object to add</param>
         public void WriteObject(object _value) {
             if (_value == null) {
-                Write(0); // object is null, so we write the length of 0
+                WriteShortString("$null");
                 return;
             }
-            BinaryFormatter bf = new BinaryFormatter();
-            using MemoryStream ms = new MemoryStream();
-            bf.Serialize(ms, _value);
-            Write(ms.ToArray().Length); // first we write the length of the object's byte representation
-            Write(ms.ToArray()); // than we write the representation itself
+            string name; // special names => "$anon" - not serialized  "$null" - null
+            byte[] bytes;
+            int length;
+
+            if (_value is INetSerializable) { // proper serialization of sent object
+                //name = (_value.GetType().GetCustomAttributes(typeof(NetSerializeAsAttribute), false)[0] as NetSerializeAsAttribute).serializeAs; // TODO: replace with dictionary entry from NetSerializers
+                name = NetSerializers.serializers[_value.GetType()];
+                bytes = (_value as INetSerializable).Serialize(new Packet()).ToArray();
+                length = bytes.Length;
+            } else { // Anonymous objects using auto-serialization
+                BinaryFormatter bf = new BinaryFormatter();
+                using MemoryStream ms = new MemoryStream();
+                bf.Serialize(ms, _value);
+
+                name = "$anon";
+                bytes = ms.ToArray();
+                length = bytes.Length;
+            }
+
+            WriteShortString(name);
+            Write(length);
+            Write(bytes);
+
+
         }
         #endregion
 
@@ -287,6 +314,22 @@ namespace LambWorks.Networking {
             }
         }
 
+        /// <summary>Reads a short (255) string from the packet.</summary>
+        /// <param name="_moveReadPos">Whether or not to move the buffer's read position.</param>
+        public string ReadShortString(bool _moveReadPos = true) {
+            try {
+                int _length = ReadByte(); // Get the length of the string
+                string _value = Encoding.ASCII.GetString(readableBuffer, readPos, _length); // Convert the bytes to a string
+                if (_moveReadPos && _value.Length > 0) {
+                    // If _moveReadPos is true string is not empty
+                    readPos += _length; // Increase readPos by the length of the string
+                }
+                return _value; // Return the string
+            } catch {
+                throw new Exception("Could not read value of type 'string'!");
+            }
+        }
+
         /// <summary>Reads a Vector3 from the packet.</summary>
         /// <param name="_moveReadPos">Whether or not to move the buffer's read position.</param>
         public Vector3 ReadVector3(bool _moveReadPos = true) {
@@ -302,16 +345,32 @@ namespace LambWorks.Networking {
         /// <summary>Reads an object from the packet.</summary>
         /// <param name="_moveReadPos">Whether or not to move the buffer's read position.</param>
         public object ReadObject(bool _moveReadPos = true) {
-            int length = ReadInt(_moveReadPos);
-            if (length == 0) return null; // object was null or empty
-            byte[] bytes = ReadBytes(length, _moveReadPos);
+            string type = ReadShortString(_moveReadPos);
+            int length = 0;
+            byte[] data;
 
-            using MemoryStream memStream = new MemoryStream();
-            BinaryFormatter bf = new BinaryFormatter();
-            memStream.Write(bytes, 0, length);
-            memStream.Seek(0, SeekOrigin.Begin);
+            switch (type) {
+                case "$null":
+                    return null;
+                case "$anon":
+                    length = ReadInt(_moveReadPos);
+                    data = ReadBytes(length, _moveReadPos);
+                    using (MemoryStream memStream = new MemoryStream()) {
+                        BinaryFormatter bf = new BinaryFormatter();
+                        memStream.Write(data, 0, length);
+                        memStream.Seek(0, SeekOrigin.Begin);
 
-            return bf.Deserialize(memStream);
+                        return bf.Deserialize(memStream);
+                    }
+                default:
+                    length = ReadInt(_moveReadPos);
+                    data = ReadBytes(length, _moveReadPos);
+                    return NetSerializers.deserializers[type].Invoke(new Packet(data));
+
+
+            }
+
+
         }
         #endregion
 

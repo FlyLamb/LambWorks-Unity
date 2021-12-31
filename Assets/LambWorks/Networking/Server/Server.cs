@@ -9,10 +9,10 @@ using System.Text.RegularExpressions;
 
 namespace LambWorks.Networking.Server {
     public partial class Server {
-        public static int MaxPlayers { get; private set; }
+        public static byte MaxPlayers { get; private set; }
         public static int Port { get; private set; }
         public static Dictionary<int, Client> clients = new Dictionary<int, Client>();
-        public static Dictionary<uint, Entity> entities = new Dictionary<uint, Entity>();
+        public static Dictionary<int, Entity> entities = new Dictionary<int, Entity>();
         public delegate void PacketHandler(int fromClient, Packet packet);
         public static Dictionary<int, PacketHandler> packetHandlers;
 
@@ -22,7 +22,7 @@ namespace LambWorks.Networking.Server {
         /// <summary>Starts the server.</summary>
         /// <param name="maxPlayers">The maximum players that can be connected simultaneously.</param>
         /// <param name="port">The port to start the server on.</param>
-        public static void Start(int maxPlayers, int port) {
+        public static void Start(byte maxPlayers, int port) {
             MaxPlayers = maxPlayers;
             Port = port;
 
@@ -99,6 +99,7 @@ namespace LambWorks.Networking.Server {
             try {
                 if (clientEndPoint != null) {
                     udpListener.BeginSend(packet.ToArray(), packet.Length(), clientEndPoint, null, null);
+                    NetInfo.uploadedUdp += packet.Length();
                 }
             } catch (Exception ex) {
                 Debug.Log($"Error sending data to {clientEndPoint} via UDP: {ex}");
@@ -107,7 +108,7 @@ namespace LambWorks.Networking.Server {
 
         /// <summary>Initializes all necessary server data.</summary>
         private static void InitializeServerData() {
-            for (int i = 1; i <= MaxPlayers; i++) {
+            for (byte i = 1; i <= MaxPlayers; i++) {
                 clients.Add(i, new Client(i));
             }
 
@@ -133,6 +134,8 @@ namespace LambWorks.Networking.Server {
         }
 
         private static void RegisterHandlers() {
+            NetSerializers.FindSerializers();
+
             packetHandlers = new Dictionary<int, PacketHandler>();
             RegisterFromAssembly(Assembly.GetAssembly(typeof(Server))); // load our methods first
             var assemblies = AppDomain.CurrentDomain.GetAssemblies().Where(w => Regex.Matches(w.FullName, "System|Unity|mscore|Mono|Lamb").Count == 0);

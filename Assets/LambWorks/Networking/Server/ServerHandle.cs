@@ -3,7 +3,7 @@ namespace LambWorks.Networking.Server {
     public class ServerHandle {
         [ServerHandler((int)ClientPackets.welcomeReceived)]
         public static void WelcomeReceived(int fromClient, Packet packet) {
-            int clientIdCheck = packet.ReadInt();
+            int clientIdCheck = packet.ReadByte();
             Debug.Log($"{Server.clients[fromClient].tcp.socket.Client.RemoteEndPoint} connected successfully and is now player {fromClient}.");
             Server.clients[fromClient].SendIntoGame();
         }
@@ -21,7 +21,7 @@ namespace LambWorks.Networking.Server {
 
         [ServerHandler((int)ClientPackets.entityMessage)]
         public static void MessageEntity(int fromClient, Packet packet) {
-            uint id = (uint)packet.ReadLong();
+            int id = packet.ReadInt();
             string msg = packet.ReadString();
             object obj = packet.ReadObject();
             Server.entities[id].SendMessage(msg, obj);
