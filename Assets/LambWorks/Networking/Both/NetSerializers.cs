@@ -4,6 +4,8 @@ using System.Linq;
 using System.Reflection;
 using UnityEngine;
 using System.Text.RegularExpressions;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace LambWorks.Networking {
 
@@ -39,6 +41,13 @@ namespace LambWorks.Networking {
                 serializers.Add(t, serializeAs);
                 Debug.Log($"Found serializer {serializeAs}");
             }
+        }
+
+        public static int Hash(string s) {
+            var mystring = "abcd";
+            MD5 md5Hasher = MD5.Create();
+            var hashed = md5Hasher.ComputeHash(Encoding.UTF8.GetBytes(mystring));
+            return BitConverter.ToInt32(hashed, 0);
         }
     }
 }

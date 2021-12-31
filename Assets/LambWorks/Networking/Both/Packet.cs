@@ -163,8 +163,8 @@ namespace LambWorks.Networking {
             int length;
 
             if (_value is INetSerializable) { // proper serialization of sent object
-                name = (_value.GetType().GetCustomAttributes(typeof(NetSerializeAsAttribute), false)[0] as NetSerializeAsAttribute).serializeAs; // TODO: replace with dictionary entry from NetSerializers
-                //name = NetSerializers.serializers[_value.GetType()];
+                //name = (_value.GetType().GetCustomAttributes(typeof(NetSerializeAsAttribute), false)[0] as NetSerializeAsAttribute).serializeAs; // TODO: replace with dictionary entry from NetSerializers
+                name = NetSerializers.serializers[_value.GetType()];
                 bytes = (_value as INetSerializable).Serialize(new Packet()).ToArray();
                 length = bytes.Length;
             } else { // Anonymous objects using auto-serialization
