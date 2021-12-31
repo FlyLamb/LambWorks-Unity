@@ -155,10 +155,10 @@ namespace LambWorks.Networking {
         /// <param name="_value">The object to add</param>
         public void WriteObject(object _value) {
             if (_value == null) {
-                WriteShortString("$null");
+                Write(int.MinValue);
                 return;
             }
-            string name; // special names => "$anon" - not serialized  "$null" - null
+            int name; // special names => "$anon" - not serialized  "$null" - null
             byte[] bytes;
             int length;
 
@@ -172,12 +172,12 @@ namespace LambWorks.Networking {
                 using MemoryStream ms = new MemoryStream();
                 bf.Serialize(ms, _value);
 
-                name = "$anon";
+                name = int.MaxValue;
                 bytes = ms.ToArray();
                 length = bytes.Length;
             }
 
-            WriteShortString(name);
+            Write(name);
             Write(length);
             Write(bytes);
 
@@ -384,21 +384,20 @@ namespace LambWorks.Networking {
         /// <summary>Reads an object from the packet.</summary>
         /// <param name="_moveReadPos">Whether or not to move the buffer's read position.</param>
         public object ReadObject(bool _moveReadPos = true) {
-            string type = ReadShortString(_moveReadPos);
+            int type = ReadInt(_moveReadPos);
             int length = 0;
             byte[] data;
 
             switch (type) {
-                case "$null":
+                case int.MinValue:
                     return null;
-                case "$anon":
+                case int.MaxValue:
                     length = ReadInt(_moveReadPos);
                     data = ReadBytes(length, _moveReadPos);
                     using (MemoryStream memStream = new MemoryStream()) {
                         BinaryFormatter bf = new BinaryFormatter();
                         memStream.Write(data, 0, length);
                         memStream.Seek(0, SeekOrigin.Begin);
-
                         return bf.Deserialize(memStream);
                     }
                 default:

@@ -11,15 +11,15 @@ namespace LambWorks.Networking {
 
 
     public class NetSerializers {
-        public static Dictionary<string, Func<Packet, object>> deserializers;
-        public static Dictionary<Type, string> serializers;
+        public static Dictionary<int, Func<Packet, object>> deserializers;
+        public static Dictionary<Type, int> serializers;
 
         public static void FindSerializers() {
             if (deserializers != null) return;
 
 
-            deserializers = new Dictionary<string, Func<Packet, object>>();
-            serializers = new Dictionary<Type, string>();
+            deserializers = new Dictionary<int, Func<Packet, object>>();
+            serializers = new Dictionary<Type, int>();
 
             //deserializers.Add("", (w) => (new TestClass() as INetSerializable).Deserialize(w));
 
@@ -33,21 +33,23 @@ namespace LambWorks.Networking {
             var types = assembly.GetTypes().Where(t => t.GetCustomAttributes<NetSerializeAsAttribute>().Count() != 0);
             foreach (var v in types) {
                 var attr = v.GetCustomAttribute<NetSerializeAsAttribute>();
-                string serializeAs = attr.serializeAs;
+                int serializeAs = Hash(attr.serializeAs);
                 Type t = v;
                 Func<Packet, object> func = (arr) => v.GetMethod("Deserialize").Invoke(v.GetConstructor(Type.EmptyTypes).Invoke(null), new object[] { arr }); // wtf
 
                 deserializers.Add(serializeAs, func);
                 serializers.Add(t, serializeAs);
-                Debug.Log($"Found serializer {serializeAs}");
+                Debug.Log($"Found object serializer {Hash(attr.serializeAs)} [{attr.serializeAs}] for type {v.Name}");
             }
         }
 
         public static int Hash(string s) {
-            var mystring = "abcd";
+            var mystring = s;
             MD5 md5Hasher = MD5.Create();
             var hashed = md5Hasher.ComputeHash(Encoding.UTF8.GetBytes(mystring));
-            return BitConverter.ToInt32(hashed, 0);
+            int w = BitConverter.ToInt32(hashed, 0);
+            if (w == int.MaxValue || w == int.MinValue) return Hash(s + "-");
+            return w;
         }
     }
 }
