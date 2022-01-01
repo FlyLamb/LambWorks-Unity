@@ -1,9 +1,4 @@
 namespace LambWorks.Networking {
-    public enum NetMode {
-        server,
-        client,
-        off
-    }
 
     public class NetInfo {
         public static bool IsServer => Server.Server.serverRunning;

@@ -8,6 +8,8 @@ namespace LambWorks.Networking.Server {
 
         public GameObject playerPrefab;
 
+        public bool autostart = true;
+
         public byte maxPlayers = 5;
         public int port = 26950;
 
@@ -21,9 +23,15 @@ namespace LambWorks.Networking.Server {
         }
 
         private void Start() {
-            QualitySettings.vSyncCount = 0;
-            Application.targetFrameRate = 30;
+            if (autostart) {
+                QualitySettings.vSyncCount = 0;
+                Application.targetFrameRate = 30;
 
+                StartServer();
+            }
+        }
+
+        public void StartServer() {
             Server.Start(maxPlayers, port);
         }
 
