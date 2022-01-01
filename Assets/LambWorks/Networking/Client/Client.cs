@@ -107,10 +107,12 @@ namespace LambWorks.Networking.Client {
                     socket.EndConnect(result);
                 } catch (Exception e) {
                     Debug.Log("Connection failed: " + e);
+                    Client.instance.Disconnect(e.Message);
+                    return;
                 }
 
                 if (!socket.Connected) {
-                    Client.instance.Disconnect();
+                    Client.instance.Disconnect("Lost connection");
                     return;
                 }
 
