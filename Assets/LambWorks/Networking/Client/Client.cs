@@ -44,7 +44,8 @@ namespace LambWorks.Networking.Client {
         public void ConnectToServer(Action<string> notok = null, Action<string> ok = null) {
             if (onDisconnect == null) onDisconnect = (w) => { Debug.LogError(w); };
             if (onConnect == null) onConnect = (w) => { Debug.Log(w); };
-            tcp = new TCP(onConnect, onDisconnect);
+            tcp = new TCP((w) => ThreadManager.ExecuteOnMainThread(() => onConnect(w)),
+             (w) => ThreadManager.ExecuteOnMainThread(() => onDisconnect(w)));
             udp = new UDP();
 
 
