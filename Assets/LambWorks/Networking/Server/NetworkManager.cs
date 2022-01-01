@@ -35,6 +35,10 @@ namespace LambWorks.Networking.Server {
             Server.Start(maxPlayers, port);
         }
 
+        public void StopServer() {
+            Server.Stop();
+        }
+
         private void OnApplicationQuit() {
             Server.Stop();
         }

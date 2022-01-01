@@ -28,6 +28,8 @@ namespace LambWorks.Networking.Client {
             transform.localScale = scale;
             metadata = new Dictionary<string, object>();
 
+            if (NetInfo.IsServer) // fix for "client host" solution
+                foreach (var v in gameObject.GetComponentsInChildren<Collider>()) Destroy(v);
         }
 
         /// <summary>Updates the entity data</summary>
