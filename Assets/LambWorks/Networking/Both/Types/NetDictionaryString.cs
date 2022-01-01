@@ -7,8 +7,8 @@ namespace LambWorks.Networking.Types {
     public class NetDictionaryString : Dictionary<string, object>, INetSerializable {
         public object Deserialize(Packet data) {
             int l = data.ReadInt();
-            for (int i = 0; i < l; i += 2) {
-                var key = data.ReadString();
+            for (int i = 0; i < l; i++) {
+                var key = data.ReadShortString();
                 var val = data.ReadObject();
                 Add(key, val);
             }
@@ -20,7 +20,7 @@ namespace LambWorks.Networking.Types {
         public Packet Serialize(Packet data) {
             data.Write(Count);
             foreach (var v in this) {
-                data.Write(v.Key);
+                data.WriteShortString(v.Key);
                 data.WriteObject(v.Value);
             }
 

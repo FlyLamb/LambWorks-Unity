@@ -19,16 +19,19 @@ namespace LambWorks.Networking.Client {
         }
 
         private void OnGotData() {
-            fields = _metadata.IOReadMetadata("animator") as NetDictionaryString;
+            fields = _metadata.IOReadMetadata("anim") as NetDictionaryString;
             if (fields == null) return;
             foreach (var kv in fields) {
-                var val = kv.Value as NetworkedAnimatorField;
-                switch (val.type) {
-                    case 0:
-                        animator.SetFloat(kv.Key, (float)val.value);
+                var val = kv.Value;
+                switch (val) {
+                    case int i:
+                        animator.SetInteger(kv.Key, i);
                         break;
-                    case 1:
-                        animator.SetBool(kv.Key, (bool)val.value);
+                    case float f:
+                        animator.SetFloat(kv.Key, f);
+                        break;
+                    case bool b:
+                        animator.SetBool(kv.Key, b);
                         break;
                 }
             }

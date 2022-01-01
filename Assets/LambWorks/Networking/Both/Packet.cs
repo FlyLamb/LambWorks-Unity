@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
-using Lambworks.Networking.Types;
+using LambWorks.Networking.Types;
 using UnityEngine;
 
 // Written by Tom Weiland; Unmodified.
@@ -158,7 +158,7 @@ namespace LambWorks.Networking {
                 Write(int.MinValue);
                 return;
             }
-            int name; // special names => "$anon" - not serialized  "$null" - null
+            int name; // int.min = null int.max = anon 0 = primitive
             byte[] bytes;
             int length;
 
@@ -167,6 +167,10 @@ namespace LambWorks.Networking {
                 name = NetSerializers.serializers[_value.GetType()];
                 bytes = (_value as INetSerializable).Serialize(new Packet()).ToArray();
                 length = bytes.Length;
+            } else if (Primitive.IsRecognizedPrimitive(_value)) {
+                Write(0);
+                WritePrimitive(_value);
+                return;
             } else { // Anonymous objects using auto-serialization
                 BinaryFormatter bf = new BinaryFormatter();
                 using MemoryStream ms = new MemoryStream();
@@ -391,6 +395,8 @@ namespace LambWorks.Networking {
             switch (type) {
                 case int.MinValue:
                     return null;
+                case 0:
+                    return ReadPrimitive(_moveReadPos);
                 case int.MaxValue:
                     length = ReadInt(_moveReadPos);
                     data = ReadBytes(length, _moveReadPos);

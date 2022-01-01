@@ -18,6 +18,8 @@ public class TestMetadata : MonoBehaviour {
     private void FixedUpdate() {
         //player.SetMetadata("ts", ts, TransportType.udp);
         animator.SetFloat("Time", Time.time);
+        animator.SetBool("Boolean", false);
+        animator.SetInt("int", (int)Time.time);
         animator.UpdateAnimator(TransportType.udp);
     }
 }
