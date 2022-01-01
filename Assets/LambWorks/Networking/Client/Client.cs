@@ -42,6 +42,8 @@ namespace LambWorks.Networking.Client {
 
         /// <summary>Attempts to connect to the server.</summary>
         public void ConnectToServer(Action<string> notok = null, Action<string> ok = null) {
+            onDisconnect = notok;
+            onConnect = ok;
             if (onDisconnect == null) onDisconnect = (w) => { Debug.LogError(w); };
             if (onConnect == null) onConnect = (w) => { Debug.Log(w); };
             tcp = new TCP((w) => ThreadManager.ExecuteOnMainThread(() => onConnect(w)),
