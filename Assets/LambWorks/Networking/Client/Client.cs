@@ -25,7 +25,7 @@ namespace LambWorks.Networking.Client {
         protected delegate void PacketHandler(Packet packet);
         protected static Dictionary<int, PacketHandler> packetHandlers;
 
-        public Action<string> onConnectionFailed, onConnectionOk;
+        public Action<string> onDisconnect, onConnect;
 
         private void Awake() {
             if (instance == null) {
@@ -42,11 +42,12 @@ namespace LambWorks.Networking.Client {
 
         /// <summary>Attempts to connect to the server.</summary>
         public void ConnectToServer(Action<string> notok = null, Action<string> ok = null) {
-            tcp = new TCP(ok, notok);
+            if (onDisconnect == null) onDisconnect = (w) => { Debug.LogError(w); };
+            if (onConnect == null) onConnect = (w) => { Debug.Log(w); };
+            tcp = new TCP(onConnect, onDisconnect);
             udp = new UDP();
 
-            if (onConnectionFailed == null) onConnectionFailed = (w) => { Debug.LogError(w); };
-            if (onConnectionOk == null) onConnectionOk = (w) => { Debug.Log(w); };
+
 
             InitializeClientData();
 
@@ -77,8 +78,6 @@ namespace LambWorks.Networking.Client {
 
             /// <summary>Attempts to connect to the server via TCP.</summary>
             public void Connect() {
-
-
                 socket = new TcpClient
                 {
                     ReceiveBufferSize = dataBufferSize,
@@ -88,13 +87,24 @@ namespace LambWorks.Networking.Client {
                 receiveBuffer = new byte[dataBufferSize];
 
                 var ar = socket.BeginConnect(instance.ip, instance.port, ConnectCallback, socket);
+                System.Threading.WaitHandle wh = ar.AsyncWaitHandle;
+                try {
+                    if (!ar.AsyncWaitHandle.WaitOne(TimeSpan.FromSeconds(2), false)) {
+                        socket.Close(); //We have timed out!
+                        return;
+                    }
+                } finally {
+                    wh.Close();
+                }
             }
 
             /// <summary>Initializes the newly connected client's TCP-related info.</summary>
             private void ConnectCallback(IAsyncResult result) {
                 try {
                     socket.EndConnect(result);
-                } catch (Exception e) { Debug.Log("Connection failed: " + e); connectionNotOk.Invoke(e.Message); }
+                } catch (Exception e) {
+                    Debug.Log("Connection failed: " + e);
+                }
 
                 if (!socket.Connected) {
                     Client.instance.Disconnect();
@@ -313,7 +323,7 @@ namespace LambWorks.Networking.Client {
         }
 
         /// <summary>Disconnects from the server and stops all network traffic.</summary>
-        public void Disconnect() {
+        public void Disconnect(string i = "Disconnected") {
             if (isConnected) {
                 isConnected = false;
                 GameManager.players = new Dictionary<int, PlayerManager>();
@@ -323,6 +333,8 @@ namespace LambWorks.Networking.Client {
                 tcp.socket.Close();
                 if (udp.socket != null)
                     udp.socket.Close();
+
+                onDisconnect.Invoke(i);
 
                 Debug.Log("Disconnected from server.");
             }
