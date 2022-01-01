@@ -45,8 +45,8 @@ namespace LambWorks.Networking.Client {
             tcp = new TCP(ok, notok);
             udp = new UDP();
 
-            onConnectionFailed = (w) => { Debug.LogError(w); };
-            onConnectionOk = (w) => { Debug.Log(w); };
+            if (onConnectionFailed == null) onConnectionFailed = (w) => { Debug.LogError(w); };
+            if (onConnectionOk == null) onConnectionOk = (w) => { Debug.Log(w); };
 
             InitializeClientData();
 
