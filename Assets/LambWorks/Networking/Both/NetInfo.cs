@@ -6,7 +6,8 @@ namespace LambWorks.Networking {
     }
 
     public class NetInfo {
-        public static NetMode mode = NetMode.off;
+        public static bool IsServer => Server.Server.serverRunning;
+        public static bool IsClient => Client.Client.clientRunning;
 
         public static long uploadedUdp, uploadedTcp;
         public static long downloadedUdp, downloadedTcp;

@@ -16,6 +16,8 @@ namespace LambWorks.Networking.Server {
         public delegate void PacketHandler(int fromClient, Packet packet);
         public static Dictionary<int, PacketHandler> packetHandlers;
 
+        public static bool serverRunning;
+
         private static TcpListener tcpListener;
         private static UdpClient udpListener;
 
@@ -37,8 +39,7 @@ namespace LambWorks.Networking.Server {
             udpListener.BeginReceive(UDPReceiveCallback, null);
 
             Debug.Log($"Server started on port {Port}.");
-
-            NetInfo.mode = NetMode.server;
+            serverRunning = true;
             NetInfo.Reset();
         }
 
@@ -117,6 +118,7 @@ namespace LambWorks.Networking.Server {
         }
 
         public static void Stop() {
+            serverRunning = false;
             foreach (Client c in clients.Values) {
                 SendMethods.PlayerDisconnected(c.id);
             }
@@ -128,8 +130,6 @@ namespace LambWorks.Networking.Server {
                 tcpListener.Stop();
             if (udpListener != null)
                 udpListener.Close();
-
-            NetInfo.mode = NetMode.off;
 
         }
 

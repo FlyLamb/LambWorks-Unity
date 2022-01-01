@@ -14,6 +14,8 @@ namespace LambWorks.Networking.Client {
         public static Client instance;
         public static int dataBufferSize = 4096;
 
+        public static bool clientRunning => instance.isConnected;
+
         public string ip = "127.0.0.1";
         public int port = 26950;
         public int timeout = 3;
@@ -57,8 +59,6 @@ namespace LambWorks.Networking.Client {
             isConnected = true;
             tcp.Connect(); // Connect tcp, udp gets connected once tcp is done
 
-
-            NetInfo.mode = NetMode.client;
             NetInfo.Reset();
         }
 
@@ -209,8 +209,6 @@ namespace LambWorks.Networking.Client {
                 receivedData = null;
                 receiveBuffer = null;
                 socket = null;
-
-                NetInfo.mode = NetMode.off;
             }
         }
 
