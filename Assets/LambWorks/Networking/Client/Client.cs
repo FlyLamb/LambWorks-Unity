@@ -6,6 +6,7 @@ using UnityEngine;
 using System.Reflection;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Collections;
 
 namespace LambWorks.Networking.Client {
     [AddComponentMenu("LambWorks/Networking/Client/[C] Client")]
@@ -24,6 +25,8 @@ namespace LambWorks.Networking.Client {
         protected delegate void PacketHandler(Packet packet);
         protected static Dictionary<int, PacketHandler> packetHandlers;
 
+        public Action<string> onConnectionFailed, onConnectionOk;
+
         private void Awake() {
             if (instance == null) {
                 instance = this;
@@ -38,18 +41,24 @@ namespace LambWorks.Networking.Client {
         }
 
         /// <summary>Attempts to connect to the server.</summary>
-        public void ConnectToServer() {
-            tcp = new TCP();
+        public void ConnectToServer(Action<string> notok = null, Action<string> ok = null) {
+            tcp = new TCP(ok, notok);
             udp = new UDP();
+
+            onConnectionFailed = (w) => { Debug.LogError(w); };
+            onConnectionOk = (w) => { Debug.Log(w); };
 
             InitializeClientData();
 
             isConnected = true;
             tcp.Connect(); // Connect tcp, udp gets connected once tcp is done
 
+
             NetInfo.mode = NetMode.client;
             NetInfo.Reset();
         }
+
+
 
         public class TCP {
             public TcpClient socket;
@@ -58,8 +67,18 @@ namespace LambWorks.Networking.Client {
             private Packet receivedData;
             private byte[] receiveBuffer;
 
+            private Action<string> connectionOk, connectionNotOk;
+
+            public TCP(Action<string> ok, Action<string> notok) {
+                this.connectionOk = ok;
+                this.connectionNotOk = notok;
+            }
+
+
             /// <summary>Attempts to connect to the server via TCP.</summary>
             public void Connect() {
+
+
                 socket = new TcpClient
                 {
                     ReceiveBufferSize = dataBufferSize,
@@ -69,26 +88,20 @@ namespace LambWorks.Networking.Client {
                 receiveBuffer = new byte[dataBufferSize];
 
                 var ar = socket.BeginConnect(instance.ip, instance.port, ConnectCallback, socket);
-                System.Threading.WaitHandle wh = ar.AsyncWaitHandle;
-                try {
-                    if (!ar.AsyncWaitHandle.WaitOne(TimeSpan.FromSeconds(2), false)) {
-                        socket.Close(); //We have timed out!
-                        return;
-                    }
-                } finally {
-                    wh.Close();
-
-                }
             }
 
             /// <summary>Initializes the newly connected client's TCP-related info.</summary>
             private void ConnectCallback(IAsyncResult result) {
-                socket.EndConnect(result);
+                try {
+                    socket.EndConnect(result);
+                } catch (Exception e) { Debug.Log("Connection failed: " + e); connectionNotOk.Invoke(e.Message); }
 
                 if (!socket.Connected) {
                     Client.instance.Disconnect();
                     return;
                 }
+
+                connectionOk.Invoke("TCP Connected!");
 
                 stream = socket.GetStream();
 
