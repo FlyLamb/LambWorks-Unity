@@ -17,9 +17,11 @@ namespace LambWorks.Networking.Client {
         public static bool clientRunning => instance.isConnected;
 
         public string ip = "127.0.0.1";
+
         public int port = 26950;
         public int timeout = 3;
         public byte myId = 0;
+        public string myUsername = "";
         public TCP tcp;
         public UDP udp;
 

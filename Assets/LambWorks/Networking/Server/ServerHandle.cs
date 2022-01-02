@@ -4,8 +4,9 @@ namespace LambWorks.Networking.Server {
         [ServerHandler((int)ClientPackets.welcomeReceived)]
         public static void WelcomeReceived(int fromClient, Packet packet) {
             int clientIdCheck = packet.ReadByte();
+            string username = packet.ReadString();
             Debug.Log($"{Server.clients[fromClient].tcp.socket.Client.RemoteEndPoint} connected successfully and is now player {fromClient}.");
-            Server.clients[fromClient].SendIntoGame();
+            Server.clients[fromClient].SendIntoGame(username);
         }
 
         [ServerHandler((int)ClientPackets.playerMovement)]

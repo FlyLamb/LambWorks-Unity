@@ -10,12 +10,15 @@ namespace LambWorks.Networking.Server {
     public class PlayerManager : MonoBehaviour, IMetadataIO {
         public byte id;
         public string username;
+        public bool dontDestroyOnLoad = true;
 
         public NetDictionaryString metadata;
 
-        public void Initialize(byte id) {
+        public void Initialize(byte id, string username = "") {
             this.id = id;
+            this.username = username;
             metadata = new NetDictionaryString();
+            DontDestroyOnLoad(this);
         }
 
         public void SetMetadata(string meta, object data, TransportType send = TransportType.dummy) {

@@ -21,6 +21,7 @@ namespace LambWorks.Networking.Client {
             this.id = id;
             this.username = username;
             metadata = new NetDictionaryString();
+            DontDestroyOnLoad(this);
         }
 
         public void SetMetadata(string meta, object data, bool invokeEvent = false) {

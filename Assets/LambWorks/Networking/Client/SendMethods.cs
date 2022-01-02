@@ -1,9 +1,10 @@
 ﻿namespace LambWorks.Networking.Client {
     public class SendMethods {
         /// <summary>Confirms the player id with the server, this is sent when Welcome is received</summary>
-        public static void WelcomeReceived() {
+        public static void WelcomeReceived(string username = "") {
             using (Packet packet = new Packet((int)ClientPackets.welcomeReceived)) {
                 packet.Write(Client.instance.myId);
+                packet.Write(username);
                 ClientSend.SendTCPData(packet);
             }
         }

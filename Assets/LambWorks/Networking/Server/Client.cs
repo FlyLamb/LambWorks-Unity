@@ -180,9 +180,9 @@ namespace LambWorks.Networking.Server {
 
         /// <summary>Sends the client into the game and informs other clients of the new player.</summary>
         /// <param name="playerName">The username of the new player.</param>
-        public void SendIntoGame() {
+        public void SendIntoGame(string username) {
             player = NetworkManager.instance.InstantiatePlayer();
-            player.Initialize(id);
+            player.Initialize(id, username);
 
             // Send all players to the new player
             foreach (Client client in Server.clients.Values) {
