@@ -14,5 +14,10 @@ namespace LambWorks.Networking.Server {
         protected virtual void ServerStart() {
             this.enabled = true;
         }
+
+        protected virtual void OnDestroy() {
+            Server.onServerStart -= ServerStart;
+            Server.onServerStop -= ServerStop;
+        }
     }
 }

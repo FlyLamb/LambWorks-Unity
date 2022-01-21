@@ -17,6 +17,11 @@ namespace LambWorks.Networking.Client {
         protected virtual void ClientStart() {
             this.enabled = true;
         }
+
+        protected virtual void OnDestroy() {
+            Client.onClientConnect -= ClientStart;
+            Client.onClientDisconnect -= ClientStop;
+        }
     }
 
 }
