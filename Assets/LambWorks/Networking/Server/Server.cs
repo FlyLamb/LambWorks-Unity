@@ -28,6 +28,7 @@ namespace LambWorks.Networking.Server {
         public static void Start(byte maxPlayers, int port) {
             MaxPlayers = maxPlayers;
             Port = port;
+            onServerStart.Invoke();
 
             Debug.Log("Starting server...");
             InitializeServerData();
@@ -42,6 +43,25 @@ namespace LambWorks.Networking.Server {
             Debug.Log($"Server started on port {Port}.");
             serverRunning = true;
             NetInfo.Reset();
+            onServerStart.Invoke();
+        }
+
+
+        public static void Stop() {
+            serverRunning = false;
+            onServerStop.Invoke();
+            foreach (Client c in clients.Values) {
+                SendMethods.PlayerDisconnected(c.id);
+            }
+            clients.Clear();
+            foreach (Entity e in entities.Values) GameObject.Destroy(e.gameObject);
+            entities.Clear();
+
+            if (tcpListener != null)
+                tcpListener.Stop();
+            if (udpListener != null)
+                udpListener.Close();
+
         }
 
         /// <summary>Handles new TCP connections.</summary>
@@ -118,21 +138,6 @@ namespace LambWorks.Networking.Server {
             Debug.Log("Initialized packets.");
         }
 
-        public static void Stop() {
-            serverRunning = false;
-            foreach (Client c in clients.Values) {
-                SendMethods.PlayerDisconnected(c.id);
-            }
-            clients.Clear();
-            foreach (Entity e in entities.Values) GameObject.Destroy(e.gameObject);
-            entities.Clear();
-
-            if (tcpListener != null)
-                tcpListener.Stop();
-            if (udpListener != null)
-                udpListener.Close();
-
-        }
 
         private static void RegisterHandlers() {
             NetSerializers.FindSerializers();

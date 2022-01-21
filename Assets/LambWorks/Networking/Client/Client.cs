@@ -50,13 +50,16 @@ namespace LambWorks.Networking.Client {
         public void ConnectToServer(Action<string> notok = null, Action<string> ok = null) {
             onDisconnect = notok;
             onConnect = ok;
-            if (onDisconnect == null) onDisconnect = (w) => { Debug.LogError(w); };
-            if (onConnect == null) onConnect = (w) => { Debug.Log(w); };
+
+            if (onDisconnect == null) onDisconnect = (w) => { onClientDisconnect.Invoke(); Debug.LogError(w); };
+            else onDisconnect += (w) => onClientDisconnect.Invoke();
+
+            if (onConnect == null) onConnect = (w) => { onClientConnect.Invoke(); Debug.Log(w); };
+            else onConnect += (w) => onClientConnect.Invoke();
+
             tcp = new TCP((w) => ThreadManager.ExecuteOnMainThread(() => onConnect(w)),
              (w) => ThreadManager.ExecuteOnMainThread(() => onDisconnect(w)));
             udp = new UDP();
-
-
 
             InitializeClientData();
 
