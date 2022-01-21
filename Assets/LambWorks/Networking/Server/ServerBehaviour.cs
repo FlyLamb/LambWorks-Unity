@@ -8,11 +8,11 @@ namespace LambWorks.Networking.Server {
         }
 
         protected virtual void ServerStop() {
-
+            this.enabled = false;
         }
 
         protected virtual void ServerStart() {
-
+            this.enabled = true;
         }
     }
 }

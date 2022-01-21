@@ -11,11 +11,11 @@ namespace LambWorks.Networking.Client {
         }
 
         protected virtual void ClientStop() {
-
+            this.enabled = false;
         }
 
         protected virtual void ClientStart() {
-
+            this.enabled = true;
         }
     }
 

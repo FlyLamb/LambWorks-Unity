@@ -7,7 +7,7 @@ namespace LambWorks.Networking.Server {
     /// The entity class is a gameObject synchronised between the client and server
     /// </summary>
     [AddComponentMenu("LambWorks/Networking/Server/[S] Server-Side Entity")]
-    public class Entity : MonoBehaviour, IMetadataIO {
+    public class Entity : ServerBehaviour, IMetadataIO {
         [HideInInspector] public int id = 0;
         public string model;
 
@@ -24,7 +24,8 @@ namespace LambWorks.Networking.Server {
         [Tooltip("The transform to use instead of the current gameObject's")]
         public Transform origin;
 
-        private void Awake() {
+        protected override void Awake() {
+            base.Awake();
             if (origin == null)
                 origin = transform;
         }
