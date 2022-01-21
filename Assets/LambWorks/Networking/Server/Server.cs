@@ -15,6 +15,7 @@ namespace LambWorks.Networking.Server {
         public static Dictionary<int, Entity> entities = new Dictionary<int, Entity>();
         public delegate void PacketHandler(int fromClient, Packet packet);
         public static Dictionary<int, PacketHandler> packetHandlers;
+        internal static Action onServerStart = () => { }, onServerStop = () => { };
 
         public static bool serverRunning;
 

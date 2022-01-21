@@ -16,6 +16,8 @@ namespace LambWorks.Networking.Client {
 
         public static bool clientRunning => instance.isConnected;
 
+        public static Action onClientConnect = () => { }, onClientDisconnect = () => { };
+
         public string ip = "127.0.0.1";
 
         public int port = 26950;
