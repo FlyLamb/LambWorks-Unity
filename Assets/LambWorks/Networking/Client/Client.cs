@@ -336,10 +336,14 @@ namespace LambWorks.Networking.Client {
         public void Disconnect(string i = "Disconnected") {
             if (isConnected) {
                 isConnected = false;
+                foreach (PlayerManager m in GameManager.players.Values) {
+                    if (m != null) Destroy(m.gameObject);
+                }
                 GameManager.players = new Dictionary<int, PlayerManager>();
-                foreach (Entity e in GameManager.entities.Values) Destroy(e.gameObject);
 
+                foreach (Entity e in GameManager.entities.Values) Destroy(e.gameObject);
                 GameManager.entities = new Dictionary<int, Entity>();
+
                 tcp.socket.Close();
                 if (udp.socket != null)
                     udp.socket.Close();
