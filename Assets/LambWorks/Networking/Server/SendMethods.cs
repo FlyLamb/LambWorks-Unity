@@ -11,7 +11,7 @@ namespace LambWorks.Networking.Server {
             using (Packet packet = new Packet((int)ServerPackets.welcome)) {
                 packet.Write(msg);
                 packet.Write(toClient);
-
+                NetworkManager.instance.OnPlayerJoin(toClient);
                 ServerSend.SendTCPData(toClient, packet);
             }
         }
@@ -20,7 +20,7 @@ namespace LambWorks.Networking.Server {
         /// <param name="toClient">The client that should spawn the player.</param>
         /// <param name="player">The player to spawn.</param>
         public static void SpawnPlayer(int toClient, PlayerManager player) {
-            NetworkManager.instance.OnPlayerJoin(player.id);
+
             using (Packet packet = new Packet((int)ServerPackets.spawnPlayer)) {
                 packet.Write((short)player.id);
                 packet.Write(player.username);

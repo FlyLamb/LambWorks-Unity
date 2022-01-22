@@ -12,12 +12,14 @@ namespace LambWorks.Networking.Client {
 
         protected virtual void ClientStop() {
             if (this == null) OnDestroy();
-            this.enabled = false;
+            else
+                this.enabled = false;
         }
 
         protected virtual void ClientStart() {
             if (this == null) OnDestroy();
-            this.enabled = true;
+            else
+                this.enabled = true;
         }
 
         protected virtual void OnDestroy() {
