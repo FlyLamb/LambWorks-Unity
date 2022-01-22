@@ -8,10 +8,12 @@ namespace LambWorks.Networking.Server {
         }
 
         protected virtual void ServerStop() {
+            if (this == null) OnDestroy();
             this.enabled = false;
         }
 
         protected virtual void ServerStart() {
+            if (this == null) OnDestroy();
             this.enabled = true;
         }
 
