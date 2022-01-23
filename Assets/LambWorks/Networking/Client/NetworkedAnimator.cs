@@ -13,6 +13,8 @@ namespace LambWorks.Networking.Client {
         private NetDictionaryString fields;
         public Animator animator;
 
+        private Dictionary<string, short> triggers = new Dictionary<string, short>();
+
         private void Awake() {
             _metadata = metadata as IMetadataIO;
             _metadata.IOGotData += OnGotData;
@@ -32,6 +34,16 @@ namespace LambWorks.Networking.Client {
                         break;
                     case bool b:
                         animator.SetBool(kv.Key, b);
+                        break;
+                    case short s:
+                        if (triggers.ContainsKey(kv.Key)) {
+                            if (triggers[kv.Key] != s)
+                                animator.SetTrigger(kv.Key);
+                            triggers[kv.Key] = s;
+                        } else {
+                            triggers.Add(kv.Key, s);
+                            animator.SetTrigger(kv.Key);
+                        }
                         break;
                 }
             }

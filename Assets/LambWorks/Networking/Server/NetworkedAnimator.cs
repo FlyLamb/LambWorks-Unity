@@ -56,6 +56,17 @@ namespace LambWorks.Networking.Server {
             }
         }
 
+        public void SetTrigger(string n, TransportType transportType = TransportType.dummy) {
+            if (fields.ContainsKey(n)) {
+                short v = (short)fields[n];
+                fields[n] = v + 1;
+                _metadata.IOWriteMetadata("anim", NetDictionaryString.Create(fields), transportType);
+            } else {
+                fields.Add(n, (short)0);
+                _metadata.IOWriteMetadata("anim", NetDictionaryString.Create(fields), transportType);
+            }
+        }
+
         public void UpdateAnimator(TransportType transportType) {
             _metadata.IOWriteMetadata("anim", NetDictionaryString.Create(fields), transportType);
         }
