@@ -52,6 +52,7 @@ namespace LambWorks.Networking.Server {
             onServerStop.Invoke();
             foreach (Client c in clients.Values) {
                 SendMethods.PlayerDisconnected(c.id);
+                GameObject.Destroy(c.player.gameObject);
             }
             clients.Clear();
             foreach (Entity e in entities.Values) GameObject.Destroy(e.gameObject);
