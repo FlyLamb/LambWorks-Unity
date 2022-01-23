@@ -6,20 +6,39 @@ using UnityEngine;
 namespace LambWorks.Networking.Client {
     public abstract class ClientBehaviour : MonoBehaviour {
         protected virtual void Awake() {
-            Client.onClientConnect += ClientStart;
-            Client.onClientDisconnect += ClientStop;
+            Client.onClientConnect += _ClientStart;
+            Client.onClientDisconnect += _ClientStop;
         }
 
-        protected virtual void ClientStop() {
+        protected virtual void Start() {
+            if (NetInfo.IsClient) ClientStart();
+        }
+
+        private void _ClientStop() {
             if (this == null) OnDestroy();
-            else
+            else {
+                ClientStop();
                 this.enabled = false;
+            }
+
+        }
+
+        private void _ClientStart() {
+            if (this == null) OnDestroy();
+            else {
+                ClientStart();
+                this.enabled = true;
+            }
+
+        }
+
+
+        protected virtual void ClientStop() {
+
         }
 
         protected virtual void ClientStart() {
-            if (this == null) OnDestroy();
-            else
-                this.enabled = true;
+
         }
 
         protected virtual void OnDestroy() {

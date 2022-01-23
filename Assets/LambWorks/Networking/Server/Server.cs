@@ -28,7 +28,6 @@ namespace LambWorks.Networking.Server {
         public static void Start(byte maxPlayers, int port) {
             MaxPlayers = maxPlayers;
             Port = port;
-            onServerStart.Invoke();
 
             Debug.Log("Starting server...");
             InitializeServerData();
