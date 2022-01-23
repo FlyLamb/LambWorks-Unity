@@ -62,6 +62,8 @@ namespace LambWorks.Networking.Server {
             if (udpListener != null)
                 udpListener.Close();
 
+            Debug.Log("Server stopped");
+
         }
 
         /// <summary>Handles new TCP connections.</summary>
