@@ -16,6 +16,8 @@ namespace LambWorks.Networking.Server {
         [Tooltip("The minimal change in angle required for the entity to get updated")]
         public float roationThreshold = 1f;
 
+        public bool sendToSelf = false;
+
         private Vector3 lastPosition;
         private Quaternion lastRotation;
 
@@ -30,7 +32,7 @@ namespace LambWorks.Networking.Server {
                 origin = transform;
         }
 
-        protected virtual void Start() {
+        protected override void ServerStart() {
             NetworkManager.instance.RegisterEntity(this);
             metadata = new Dictionary<string, object>();
         }
