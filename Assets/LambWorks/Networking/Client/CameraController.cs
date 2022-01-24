@@ -41,12 +41,14 @@ namespace LambWorks.Networking.Client {
         }
 
         private void ToggleCursorMode() {
-            Cursor.visible = !Cursor.visible;
+
 
             if (Cursor.lockState == CursorLockMode.None) {
                 Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
             } else {
                 Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
             }
         }
     }
