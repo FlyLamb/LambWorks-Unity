@@ -58,7 +58,7 @@ namespace LambWorks.Networking.Client {
         /// <summary>Instantiates the entity and assigns the correct parameters</summary>
         public void SpawnEntity(string model, int id, Vector3 position, Quaternion rotation, Vector3 scale) {
             var fnd = FindEntityByModelName(model).gameObject;
-            if (fnd.GetComponent<LambWorks.Networking.Server.Entity>() != null && NetInfo.IsServer) return;
+
             Entity e = Instantiate(fnd).GetComponent<Entity>();
             e.Initialize(id, position, rotation, scale);
             entities.Add(id, e);
