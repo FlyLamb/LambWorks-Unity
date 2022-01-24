@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using LambWorks.Networking.Types;
 using UnityEngine;
 
 namespace LambWorks.Networking.Server {
@@ -21,7 +22,7 @@ namespace LambWorks.Networking.Server {
         private Vector3 lastPosition;
         private Quaternion lastRotation;
 
-        public Dictionary<string, object> metadata;
+        public NetDictionaryString metadata;
 
         [Tooltip("The transform to use instead of the current gameObject's")]
         public Transform origin;
@@ -34,7 +35,7 @@ namespace LambWorks.Networking.Server {
 
         protected override void ServerStart() {
             NetworkManager.instance.RegisterEntity(this);
-            metadata = new Dictionary<string, object>();
+            metadata = new NetDictionaryString();
         }
 
         private bool CoordinateDistance(Vector3 w, float t) {
