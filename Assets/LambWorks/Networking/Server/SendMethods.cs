@@ -44,12 +44,14 @@ namespace LambWorks.Networking.Server {
 
         /// <summary>Sends a player's updated rotation to all clients except to himself (to avoid overwriting the local player's rotation).</summary>
         /// <param name="player">The player whose rotation to update.</param>
-        public static void PlayerRotation(PlayerManager player) {
+        public static void PlayerRotation(PlayerManager player, bool including = false) {
             using (Packet packet = new Packet((int)ServerPackets.playerRotation)) {
                 packet.Write(player.id);
                 packet.Write(player.transform.rotation);
-
-                ServerSend.SendUDPDataToAll(player.id, packet);
+                if (including)
+                    ServerSend.SendUDPDataToAll(packet);
+                else
+                    ServerSend.SendUDPDataToAll(player.id, packet);
             }
         }
 
