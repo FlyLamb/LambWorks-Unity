@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using LambWorks.Networking.Types;
-
+using System;
 
 namespace LambWorks.Networking.Server {
     [AddComponentMenu("LambWorks/Networking/Server/[S] Networked Animator")]
@@ -58,7 +58,7 @@ namespace LambWorks.Networking.Server {
 
         public void SetTrigger(string n, TransportType transportType = TransportType.dummy) {
             if (fields.ContainsKey(n)) {
-                short v = (short)fields[n];
+                short v = Convert.ToInt16(fields[n]);
                 fields[n] = v + 1;
                 _metadata.IOWriteMetadata("anim", NetDictionaryString.Create(fields), transportType);
             } else {
