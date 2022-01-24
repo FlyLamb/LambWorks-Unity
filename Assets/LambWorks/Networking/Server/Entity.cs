@@ -21,7 +21,7 @@ namespace LambWorks.Networking.Server {
         private Vector3 lastPosition;
         private Quaternion lastRotation;
 
-        private Dictionary<string, object> metadata;
+        public Dictionary<string, object> metadata;
 
         [Tooltip("The transform to use instead of the current gameObject's")]
         public Transform origin;
