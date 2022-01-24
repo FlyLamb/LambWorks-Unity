@@ -10,6 +10,7 @@ namespace LambWorks.Networking.Client {
     public class Entity : ClientBehaviour, IMetadataIO {
         [HideInInspector] public int id;
         public string model;
+        [SerializeField] private bool noHostColliders = false;
         public Dictionary<string, object> metadata;
 
 
@@ -28,7 +29,7 @@ namespace LambWorks.Networking.Client {
             transform.localScale = scale;
             metadata = new Dictionary<string, object>();
 
-            if (NetInfo.IsServer) // fix for "client host" solution
+            if (NetInfo.IsServer && noHostColliders) // fix for "client host" solution
                 foreach (var v in gameObject.GetComponentsInChildren<Collider>()) Destroy(v);
         }
 
