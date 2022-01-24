@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using LambWorks.Networking.Types;
 using UnityEngine;
 
 namespace LambWorks.Networking.Client {
@@ -11,7 +12,7 @@ namespace LambWorks.Networking.Client {
         [HideInInspector] public int id;
         public string model;
         [SerializeField] private bool noHostColliders = false;
-        public Dictionary<string, object> metadata;
+        public NetDictionaryString metadata;
 
 
         /// <summary>Messages the server entity (basically calls a function by name)</summary>
@@ -27,7 +28,7 @@ namespace LambWorks.Networking.Client {
             transform.position = position;
             transform.rotation = rotation;
             transform.localScale = scale;
-            metadata = new Dictionary<string, object>();
+            metadata = new NetDictionaryString();
 
             if (NetInfo.IsServer && noHostColliders) // fix for "client host" solution
                 foreach (var v in gameObject.GetComponentsInChildren<Collider>()) Destroy(v);
