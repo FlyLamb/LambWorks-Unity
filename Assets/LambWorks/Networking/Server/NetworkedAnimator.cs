@@ -59,10 +59,10 @@ namespace LambWorks.Networking.Server {
         public void SetTrigger(string n, TransportType transportType = TransportType.dummy) {
             if (fields.ContainsKey(n)) {
                 short v = Convert.ToInt16(fields[n]);
-                fields[n] = v + 1;
+                fields[n] = (short)(v + 1);
                 _metadata.IOWriteMetadata("anim", NetDictionaryString.Create(fields), transportType);
             } else {
-                fields.Add(n, (short)0);
+                fields.Add(n, short.MinValue);
                 _metadata.IOWriteMetadata("anim", NetDictionaryString.Create(fields), transportType);
             }
         }
