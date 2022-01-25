@@ -1,7 +1,7 @@
 using UnityEngine;
 
 namespace LambWorks.Networking {
-    [AddComponentMenu("LambWorks/Networking/Network Debug Info")]
+    [AddComponentMenu("LambWorks/Networking/Enforced Server Authority")]
     public class EnforcedServerAuthority : MonoBehaviour {
         private void Start() {
             if (NetInfo.IsServer) return;

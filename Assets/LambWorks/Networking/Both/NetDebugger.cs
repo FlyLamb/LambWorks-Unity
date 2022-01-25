@@ -6,8 +6,8 @@ namespace LambWorks.Networking {
     [AddComponentMenu("LambWorks/Networking/Network Debug Info")]
     public class NetDebugger : MonoBehaviour {
 
-        long p_tcp_up, p_tcp_down, p_udp_up, p_udp_down;
-        long c_tcp_up, c_tcp_down, c_udp_up, c_udp_down;
+        private long p_tcp_up, p_tcp_down, p_udp_up, p_udp_down;
+        [HideInInspector] public long c_tcp_up, c_tcp_down, c_udp_up, c_udp_down;
         private IEnumerator RefreshData() {
             c_tcp_up = NetInfo.uploadedTcp - p_tcp_up;
             p_tcp_up = NetInfo.uploadedTcp;
