@@ -189,6 +189,7 @@ namespace LambWorks.Networking.Server {
                 if (client.player != null) {
                     if (client.id != id) {
                         SendMethods.SpawnPlayer(id, client.player);
+                        SendMethods.PlayerPosition(client.player);
                     }
                 }
             }

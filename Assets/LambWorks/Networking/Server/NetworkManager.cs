@@ -52,6 +52,10 @@ namespace LambWorks.Networking.Server {
             foreach (var item in Server.entities.Values) {
                 SendMethods.SpawnEntity(item, id);
             }
+
+            foreach (var item in Server.entities.Values) {
+                SendMethods.UpdateEntity(item, id);
+            }
         }
 
         /// <summary>Needs to be called by the entity in order to be registered</summary>
