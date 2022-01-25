@@ -54,7 +54,7 @@ namespace LambWorks.Networking.Server {
             }
 
             foreach (var item in Server.entities.Values) {
-                SendMethods.UpdateEntity(item, id);
+                SendMethods.UpdateEntity(item);
             }
         }
 
